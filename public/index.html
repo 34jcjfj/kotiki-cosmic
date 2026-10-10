@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b20">
+  <meta name="kotiki-cosmic-version" content="4.0-vercel">
+  <meta name="description" content="Котики — дружное космическое сообщество.">
+  <title>Котики — космическое сообщество</title>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+  <div class="cosmic-glow glow-a" aria-hidden="true"></div>
+  <div class="cosmic-glow glow-b" aria-hidden="true"></div>
+  <div class="meteor-layer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Котики — на главную">
+        <span class="brand-icon" id="brandIcon">🐈</span>
+        <img class="server-avatar" id="serverAvatar" alt="Иконка Discord-сервера">
+        <span><span id="brandName">Котики</span><small>КОСМИЧЕСКОЕ СООБЩЕСТВО</small></span>
+      </a>
+      <div class="nav-actions">
+        <span class="status-pill"><i class="status-dot"></i><span id="onlineCount">Сообщество онлайн</span></span>
+        <a class="btn primary" id="topJoin" href="https://discord.gg/Ycy85nDpWX" target="_blank" rel="noopener noreferrer">Присоединиться <span>↗</span></a>
+        <button class="btn burger" id="openDrawer" aria-label="Открыть меню" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="wrap hero">
+      <div class="hero-copy reveal">
+        <span class="eyebrow"><i class="status-dot"></i> ТВОЯ ОРБИТА ДРУЗЕЙ</span>
+        <h1 id="heroTitle">Маленькая вселенная <span class="gradient">больших котиков</span></h1>
+        <p id="heroDescription">Добро пожаловать в «Котики» — уютное сообщество, где можно знакомиться, делиться творчеством, участвовать в конкурсах и находить своих.</p>
+        <div class="hero-buttons"><a class="btn primary" href="https://discord.gg/Ycy85nDpWX" id="heroJoin" target="_blank" rel="noopener noreferrer">Влететь на орбиту <span>✦</span></a><button class="btn" id="openGuide">Показать навигацию <span>⌁</span></button></div>
+        <div class="hero-note"><span>✦</span> Дружелюбно · Творчески · По-кошачьи</div>
+      </div>
+      <div class="orbit-wrap reveal" aria-label="Космический кот">
+        <div class="orbit"></div><div class="orbit two"></div>
+        <div class="planet"><div class="planet-cat" aria-hidden="true">🐱</div></div>
+        <div class="float-card fc1"><strong>✧ Творчество</strong><span>Показывай свои идеи</span></div>
+        <div class="float-card fc2"><strong>☄️ Свои люди</strong><span>Общайся и участвуй</span></div>
+        <div class="spark spark-one">✦</div><div class="spark spark-two">✧</div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="about">
+      <div class="section-head reveal"><span class="eyebrow">ЧТО ТЕБЯ ЖДЁТ</span><h2>Целая галактика <span class="gradient">в одном месте</span></h2><p>Выбирай свою орбиту — здесь есть место и для разговоров, и для новых идей.</p></div>
+      <div class="cards">
+        <article class="glass reveal"><div class="feature-icon">🐾</div><h3>Дружное сообщество</h3><p>Знакомься с участниками, открывай новые интересы и чувствуй себя частью нашей вселенной.</p></article>
+        <article class="glass reveal"><div class="feature-icon">🎨</div><h3>Творческая орбита</h3><p>Делись рисунками, видео, мемами и другими работами — вдохновляй и вдохновляйся.</p></article>
+        <article class="glass reveal"><div class="feature-icon">🏆</div><h3>События и конкурсы</h3><p>Участвуй в активностях сообщества, пробуй новое и отмечай маленькие победы.</p></article>
+      </div>
+    </section>
+
+    <section class="wrap section compact" id="safety">
+      <div class="security-panel reveal"><div class="security-orb">🛡️</div><div><span class="eyebrow">KOTIKI SHIELD</span><h2>Спокойствие — тоже суперсила</h2><p>Я подключил серверную проверку входа, ограничение частоты запросов и журналирование попыток входа. Сетевую защиту хостинга всё равно нужно включить отдельно в панели Vercel.</p><div class="shield-state"><i class="status-dot"></i><span id="shieldStatus">Проверяю серверную защиту…</span></div></div><button class="btn" id="checkShield">Проверить статус</button></div>
+    </section>
+
+    <section class="wrap section compact" id="join">
+      <div class="join-panel reveal"><div><span class="eyebrow">ТВОЁ МЕСТО ЗДЕСЬ</span><h2>Залетай к котикам 🐾</h2><p>Загляни на сервер, познакомься с сообществом и найди занятие по душе.</p><div class="server-created" aria-live="polite"><span id="serverCreated">Дата создания сервера загружается…</span><span class="server-age" id="serverAge">Возраст сервера рассчитывается…</span></div></div><a class="btn primary big" id="bottomJoin" href="https://discord.gg/Ycy85nDpWX" target="_blank" rel="noopener noreferrer">Присоединиться ↗</a></div>
+    </section>
+  </main>
+
+  <footer class="wrap footer"><div class="footer-inner"><span>© <span id="year"></span> Котики · маленькая вселенная больших идей</span><span><a href="#safety">KOTIKI SHIELD</a> · <button class="text-button" id="lockSite">Завершить сеанс владельца</button> · <button class="text-button" id="openAdmin">Настройки</button></span></div></footer>
+
+  <button class="music-fab" id="musicToggle" aria-label="Включить или выключить музыку" title="Музыка">♫</button>
+  <audio id="siteAudio" loop preload="none"></audio>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"><aside class="drawer" aria-label="Навигация"><div class="drawer-head"><strong>Куда летим? 🐾</strong><button class="xbtn" id="closeDrawer" aria-label="Закрыть меню">×</button></div><nav class="drawer-links"><a href="#home">Главная</a><a href="#about">О сообществе</a><a href="#safety">Защита сайта</a><a href="#join">Присоединиться</a><button id="drawerGuide">Навигация для новичка</button><button id="drawerAdmin">Настройки сайта</button></nav><p class="drawer-foot">Выбирай маршрут и устраивайся поудобнее ✨</p></aside></div>
+
+  <div class="modal-backdrop" id="guideBackdrop" aria-hidden="true"><section class="modal narrow" role="dialog" aria-modal="true" aria-labelledby="guideTitle"><div class="modal-head"><div><span class="eyebrow">ПЕРВЫЙ ПОЛЁТ</span><h2 id="guideTitle">Добро пожаловать!</h2></div><button class="xbtn" data-close="guideBackdrop" aria-label="Закрыть">×</button></div><div class="guide-list"><div><b>01</b><span><strong>Зайди на сервер</strong><small>Нажми «Присоединиться» и подтверди вход в Discord.</small></span></div><div><b>02</b><span><strong>Познакомься</strong><small>Загляни в правила и познакомься с сообществом.</small></span></div><div><b>03</b><span><strong>Найди свою орбиту</strong><small>Творчество, разговоры, конкурсы и голосовые комнаты ждут тебя.</small></span></div></div><a class="btn primary full" href="https://discord.gg/Ycy85nDpWX" target="_blank" rel="noopener noreferrer">Присоединиться ↗</a></section></div>
+
+  <div class="modal-backdrop" id="adminBackdrop" aria-hidden="true"><section class="modal admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle"><div class="modal-head"><div><span class="eyebrow">KOTIKI COSMIC</span><h2 id="adminTitle">Настройки сайта</h2></div><button class="xbtn" data-close="adminBackdrop" aria-label="Закрыть">×</button></div><section id="adminAuthPanel" class="auth-panel"><p class="muted">Войди, чтобы открыть инструменты владельца. Пароль проверяется на сервере.</p><form id="adminLoginForm"><label class="field"><span>Пароль владельца</span><input id="adminPassword" type="password" minlength="12" autocomplete="current-password" required></label><button class="btn primary full" type="submit">Войти в панель ↗</button><p class="form-message" id="adminAuthMessage" role="status" aria-live="polite"></p><button class="text-button" type="button" id="showRecovery">Восстановить доступ по ключу</button></form><form id="adminRecoveryForm" hidden><label class="field"><span>Ключ восстановления</span><input id="adminRecoveryKey" type="password" autocomplete="off" required></label><button class="btn primary full" type="submit">Восстановить сеанс</button><p class="form-message" id="recoveryMessage" role="status" aria-live="polite"></p><button class="text-button" type="button" id="backToLogin">Вернуться ко входу</button></form></section><div id="adminTools" hidden><div class="security-callout"><strong>Настройки владельца</strong><p>Публичные надписи и музыка в этой версии сохраняются в браузере, а пароль и восстановление проверяются сервером. Не помещай секреты в поля сайта.</p></div><section class="admin-pane active"><div class="form-grid"><label class="field"><span>Название сайта</span><input id="cfgTitle" maxlength="80" value="Котики"></label><label class="field"><span>Ссылка приглашения Discord</span><input id="cfgInvite" type="url" value="https://discord.gg/Ycy85nDpWX"></label><label class="field span-two"><span>Описание</span><textarea id="cfgDescription" rows="3">Добро пожаловать в «Котики» — уютное сообщество, где можно знакомиться, делиться творчеством и находить своих.</textarea></label><label class="field span-two"><span>URL музыкального файла (необязательно)</span><input id="cfgMusic" type="url" placeholder="https://.../music.mp3"></label></div><div class="button-row"><button class="btn primary" id="saveSite">Сохранить в этом браузере</button><button class="btn" id="resetSite">Сбросить изменения</button></div><p class="form-message" id="siteMessage"></p><div class="button-row"><button class="btn" id="adminLogout" type="button">Выйти из панели</button></div></section></div></section></div>
+</body>
+</html>
