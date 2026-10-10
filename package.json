@@ -1,0 +1,7 @@
+{
+  "name": "kotiki-cosmic-vercel",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Kotiki Cosmic site with server-side owner authentication and KOTIKI SHIELD",
+  "engines": { "node": ">=20" }
+}
