@@ -57,3 +57,13 @@ a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
 .brand small{letter-spacing:1.2px}
 @media(max-width:700px){.hero h1.gothic-title{font-size:clamp(54px,15vw,78px);letter-spacing:.025em}.hero .hero-tagline{font-size:21px}}
 @media(prefers-reduced-motion:reduce){.hero h1.gothic-title{text-shadow:0 1px 0 #8176b7,0 0 14px #a78bfa33}}
+
+
+/* Independent community-partnership initiative */
+.partner-panel{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:start;padding:28px;border:1px solid #a78bfa40;border-radius:26px;background:radial-gradient(ellipse at 0 0,#a78bfa16,transparent 48%),linear-gradient(130deg,#151a3bdc,#10152fdc)}
+.partner-symbol{display:grid;place-items:center;flex:none;width:68px;height:68px;border-radius:22px;font-size:31px;background:linear-gradient(135deg,#63e8ff18,#a78bfa2b);border:1px solid #a5b8ff35}
+.partner-copy h3{margin:2px 0 9px;font-size:clamp(20px,3vw,26px);letter-spacing:-.45px}
+.partner-copy>p{color:var(--muted);font-size:14px;line-height:1.75;margin:0}
+.partner-checklist{display:grid;gap:9px;margin:18px 0 23px;padding-left:21px;color:#c5cdec;font-size:14px;line-height:1.6}
+.partner-checklist li::marker{color:var(--cyan)}
+@media(max-width:620px){.partner-panel{grid-template-columns:1fr;padding:21px}.partner-symbol{width:58px;height:58px;border-radius:18px}.partner-copy .btn{width:100%}}
