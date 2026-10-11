@@ -1,5 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const security = require('../lib/security');
 
 test('distributed rate limit uses an atomic fixed-window expiry script', async () => {
@@ -15,7 +16,7 @@ test('distributed rate limit uses an atomic fixed-window expiry script', async (
   };
   try {
     const first = await security.consumeRateLimit(
-      { headers: { 'x-real-ip': '192.0.2.1' } }, 'login-test', 5, 900
+      { headers: { 'x-real-ip': '192.0.2.1', 'x-forwarded-for': '203.0.113.99, 198.51.100.7' } }, 'login-test', 5, 900
     );
     const second = await security.consumeRateLimit(
       { headers: { 'x-real-ip': '192.0.2.1' } }, 'login-test', 5, 900
@@ -24,6 +25,8 @@ test('distributed rate limit uses an atomic fixed-window expiry script', async (
     assert.equal(first.remaining, 4);
     assert.equal(second.remaining, 3);
     assert.equal(calls.length, 2);
+    const expectedIpHash = crypto.createHash('sha256').update('192.0.2.1').digest('hex').slice(0, 24);
+    assert.ok(calls[0].commands[0][3].endsWith(expectedIpHash), 'rate limit key should use the platform client IP, not the spoofable forwarded-for value');
     for (const call of calls) {
       assert.equal(call.url, 'https://redis.example/pipeline');
       assert.equal(call.commands.length, 1);
