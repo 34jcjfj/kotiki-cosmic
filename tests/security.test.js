@@ -27,7 +27,9 @@ test('session signatures are verified and tampering is rejected', () => {
     const token = security.makeSession();
     const req = { headers: { cookie: `${security.COOKIE_NAME}=${token}` } };
     assert.equal(security.verifySession(req), true);
-    const tampered = token.slice(0, -1) + (token.endsWith('a') ? 'b' : 'a');
+    const [payload, signature] = token.split('.');
+    const tamperedPayload = (payload[0] === 'a' ? 'b' : 'a') + payload.slice(1);
+    const tampered = `${tamperedPayload}.${signature}`;
     assert.equal(security.verifySession({ headers: { cookie: `${security.COOKIE_NAME}=${tampered}` } }), false);
     assert.equal(security.verifySession({ headers: { cookie: '' } }), false);
   } finally {
