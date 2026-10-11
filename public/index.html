@@ -4,10 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080b20">
-  <meta name="kotiki-cosmic-version" content="4.0-vercel">
-  <meta name="description" content="Котики — дружное космическое сообщество.">
+  <meta name="kotiki-cosmic-version" content="4.1-x-help-preview">
+  <meta name="description" content="Котики — дружное космическое сообщество, партнёрства сообществ и официальные уведомления KOTIKI X-HELP.">
   <title>Котики — космическое сообщество</title>
-  <!-- PostHog analytics is loaded from a same-origin file to preserve the strict CSP. -->
   <script src="assets/js/posthog.js" defer></script>
   <link rel="stylesheet" href="assets/css/site.css">
   <script src="assets/js/site.js" defer></script>
@@ -60,8 +59,33 @@
       </div>
     </section>
 
+    <section class="wrap section partnership-section" id="partners">
+      <div class="section-head reveal"><span class="eyebrow">KOTIKI COMMUNITY</span><h2>Партнёрства <span class="gradient">между сообществами</span></h2><p>Есть свой Discord-сервер или творческий проект? Давайте знакомить сообщества друг с другом и договариваться о взаимном пиаре без спама.</p></div>
+      <div class="partner-panel reveal">
+        <div class="partner-symbol" aria-hidden="true">🤝</div>
+        <div class="partner-copy"><h3>Ищем друзей для взаимного продвижения</h3><p>Обсудим совместные мероприятия, рекомендации и обмен рекламными публикациями. Партнёрство согласовывается отдельно — добавление сюда не происходит автоматически.</p>
+          <ul class="partner-checklist"><li>Подготовь название и тематику сообщества.</li><li>Добавь действующую публичную ссылку-приглашение.</li><li>Коротко расскажи, какой формат взаимного пиара предлагаешь.</li><li>Уважай правила обеих площадок — никакого спама и обманных обещаний.</li></ul>
+          <a class="btn primary" href="https://discord.gg/Ycy85nDpWX" target="_blank" rel="noopener noreferrer">Обсудить партнёрство в Discord ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section xhelp-section" id="xhelp">
+      <div class="section-head reveal"><span class="eyebrow">KOTIKI X-HELP</span><h2>Центр <span class="gradient">важных уведомлений</span></h2><p>Здесь команда сможет публиковать проверенные сообщения о безопасности, сбоях сервиса и изменениях политики конфиденциальности.</p></div>
+      <div class="xhelp-status reveal" role="status" aria-live="polite">
+        <div class="xhelp-status-icon" aria-hidden="true">🛡️</div>
+        <div><span class="notice-label">ЛЕНТА УВЕДОМЛЕНИЙ</span><h3>Подтверждённых инцидентов здесь пока не опубликовано</h3><p>Это означает только то, что в этой ленте сейчас нет опубликованных сообщений. Блок пока не подключён к автоматическому мониторингу и сам по себе не подтверждает отсутствие угроз.</p></div>
+      </div>
+      <div class="xhelp-grid">
+        <article class="glass reveal"><div class="feature-icon">🚨</div><h3>Если подтвердится инцидент</h3><p>Мы опубликуем, какие сервисы затронуты, что известно о последствиях, какие меры приняты и когда обновлялась информация. Предположение не будет выдаваться за подтверждённую утечку.</p></article>
+        <article class="glass reveal"><div class="feature-icon">🔑</div><h3>Если нужно сменить пароль</h3><p>Если подтверждённое сообщение рекомендует сменить пароль, открывай официальный сайт или приложение вручную — не переходи по ссылкам из подозрительных сообщений. Используй уникальный пароль и включи двухфакторную защиту, если она доступна.</p></article>
+        <article class="glass reveal"><div class="feature-icon">📜</div><h3>Изменения конфиденциальности</h3><p>Для существенных изменений мы укажем дату вступления в силу, простое объяснение изменений, влияние на данные и то, нужно ли пользователю что-то делать.</p></article>
+      </div>
+      <p class="xhelp-footnote reveal">Важно: уведомления здесь пока требуют ручной публикации и проверки командой. Автоматическое обнаружение утечек, рассылка пользователям и проверка доставки ещё не подключены.</p>
+    </section>
+
     <section class="wrap section compact" id="safety">
-      <div class="security-panel reveal"><div class="security-orb">🛡️</div><div><span class="eyebrow">KOTIKI SHIELD</span><h2>Спокойствие — тоже суперсила</h2><p>Я подключил серверную проверку входа, ограничение частоты запросов и журналирование попыток входа. Сетевую защиту хостинга всё равно нужно включить отдельно в панели Vercel.</p><div class="shield-state"><i class="status-dot"></i><span id="shieldStatus">Проверяю серверную защиту…</span></div></div><button class="btn" id="checkShield">Проверить статус</button></div>
+      <div class="security-panel reveal"><div class="security-orb">🛡️</div><div><span class="eyebrow">KOTIKI SHIELD</span><h2>Спокойствие — тоже суперсила</h2><p>Сайт использует серверную проверку входа и ограничение частоты запросов. Это отдельные меры защиты, а не гарантия того, что взлом невозможен.</p><div class="shield-state"><i class="status-dot"></i><span id="shieldStatus">Проверяю серверную защиту…</span></div></div><button class="btn" id="checkShield">Проверить статус</button></div>
     </section>
 
     <section class="wrap section compact" id="join">
@@ -69,13 +93,13 @@
     </section>
   </main>
 
-  <footer class="wrap footer"><div class="footer-inner"><span>© <span id="year"></span> Котики · маленькая вселенная больших идей</span><span><a href="#safety">KOTIKI SHIELD</a> · <button class="text-button" id="lockSite">Завершить сеанс владельца</button> · <button class="text-button" id="openAdmin">Настройки</button></span></div></footer>
+  <footer class="wrap footer"><div class="footer-inner"><span>© <span id="year"></span> Котики · маленькая вселенная больших идей</span><span><a href="#partners">Партнёрства</a> · <a href="#xhelp">KOTIKI X-HELP</a> · <a href="#safety">KOTIKI SHIELD</a> · <button class="text-button" id="lockSite">Завершить сеанс владельца</button> · <button class="text-button" id="openAdmin">Настройки</button></span></div></footer>
 
   <button class="music-fab" id="musicToggle" aria-label="Включить или выключить музыку" title="Музыка">♫</button>
   <audio id="siteAudio" loop preload="none"></audio>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"><aside class="drawer" aria-label="Навигация"><div class="drawer-head"><strong>Куда летим? 🐾</strong><button class="xbtn" id="closeDrawer" aria-label="Закрыть меню">×</button></div><nav class="drawer-links"><a href="#home">Главная</a><a href="#about">О сообществе</a><a href="#safety">Защита сайта</a><a href="#join">Присоединиться</a><button id="drawerGuide">Навигация для новичка</button><button id="drawerAdmin">Настройки сайта</button></nav><p class="drawer-foot">Выбирай маршрут и устраивайся поудобнее ✨</p></aside></div>
+  <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"><aside class="drawer" aria-label="Навигация"><div class="drawer-head"><strong>Куда летим? 🐾</strong><button class="xbtn" id="closeDrawer" aria-label="Закрыть меню">×</button></div><nav class="drawer-links"><a href="#home">Главная</a><a href="#about">О сообществе</a><a href="#partners">Партнёрства</a><a href="#xhelp">KOTIKI X-HELP</a><a href="#safety">Защита сайта</a><a href="#join">Присоединиться</a><button id="drawerGuide">Навигация для новичка</button><button id="drawerAdmin">Настройки сайта</button></nav><p class="drawer-foot">Выбирай маршрут и устраивайся поудобнее ✨</p></aside></div>
 
   <div class="modal-backdrop" id="guideBackdrop" aria-hidden="true"><section class="modal narrow" role="dialog" aria-modal="true" aria-labelledby="guideTitle"><div class="modal-head"><div><span class="eyebrow">ПЕРВЫЙ ПОЛЁТ</span><h2 id="guideTitle">Добро пожаловать!</h2></div><button class="xbtn" data-close="guideBackdrop" aria-label="Закрыть">×</button></div><div class="guide-list"><div><b>01</b><span><strong>Зайди на сервер</strong><small>Нажми «Присоединиться» и подтверди вход в Discord.</small></span></div><div><b>02</b><span><strong>Познакомься</strong><small>Загляни в правила и познакомься с сообществом.</small></span></div><div><b>03</b><span><strong>Найди свою орбиту</strong><small>Творчество, разговоры, конкурсы и голосовые комнаты ждут тебя.</small></span></div></div><a class="btn primary full" href="https://discord.gg/Ycy85nDpWX" target="_blank" rel="noopener noreferrer">Присоединиться ↗</a></section></div>
 
