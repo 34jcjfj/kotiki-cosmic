@@ -9,15 +9,19 @@ test('constantTimeEqual accepts equal strings and rejects mismatches', () => {
   assert.equal(security.constantTimeEqual(null, 'x'), false);
 });
 
-test('checkOrigin allows absent Origin for non-browser clients', () => {
-  assert.equal(security.checkOrigin({ headers: { host: 'example.com' } }), true);
-});
-
-test('checkOrigin requires matching HTTPS origin and request host', () => {
+test('checkOrigin rejects absent, malformed, insecure, and cross-site origins', () => {
+  assert.equal(security.checkOrigin({ headers: { host: 'example.com' } }), false);
   assert.equal(security.checkOrigin({ headers: { origin: 'https://example.com', host: 'example.com' } }), true);
   assert.equal(security.checkOrigin({ headers: { origin: 'http://example.com', host: 'example.com' } }), false);
   assert.equal(security.checkOrigin({ headers: { origin: 'https://attacker.example', host: 'example.com' } }), false);
   assert.equal(security.checkOrigin({ headers: { origin: 'not a URL', host: 'example.com' } }), false);
+});
+
+test('readBody rejects oversized parsed and string bodies', () => {
+  assert.deepEqual(security.readBody({ headers: {}, body: { ok: true } }), { ok: true });
+  assert.throws(() => security.readBody({ headers: {}, body: { data: 'x'.repeat(5000) } }), /Слишком большой/);
+  assert.throws(() => security.readBody({ headers: { 'content-length': '9000' }, body: '{}' }), /Слишком большой/);
+  assert.throws(() => security.readBody({ headers: {}, body: '{' + 'x'.repeat(5000) }), /Слишком большой/);
 });
 
 test('session signatures are verified and tampering is rejected', () => {
