@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: read
+  security-events: write
+  pull-requests: read
 
 jobs:
   checks:
@@ -33,3 +35,19 @@ jobs:
           node -e "JSON.parse(require('fs').readFileSync('vercel.json', 'utf8'))"
       - name: Run security helper tests
         run: node --test tests/security.test.js
+
+  codeql:
+    name: CodeQL static analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - name: Build project for analysis
+        uses: github/codeql-action/autobuild@v3
+      - name: Analyze source code
+        uses: github/codeql-action/analyze@v3
