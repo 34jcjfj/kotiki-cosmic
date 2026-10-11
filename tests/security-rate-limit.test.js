@@ -28,7 +28,7 @@ test('distributed rate limit uses an atomic fixed-window expiry script', async (
       assert.equal(call.url, 'https://redis.example/pipeline');
       assert.equal(call.commands.length, 1);
       assert.equal(call.commands[0][0], 'EVAL');
-      assert.match(call.commands[0][1], /if count == 1 then redis\\.call\\('EXPIRE'/);
+      assert.ok(call.commands[0][1].includes("if count == 1 then redis.call('EXPIRE'"));
       assert.equal(call.commands[0][2], '1');
       assert.equal(call.commands[0][4], '900');
     }
