@@ -5,7 +5,7 @@ module.exports = async function handler(req, res) {
   if (!verifySession(req)) return sendJson(res, 401, { error: 'Войди в панель владельца.' });
 
   let body;
-  try { body = readBody(req); } catch { return sendJson(res, 400, { error: 'Некорректные данные запроса.' }); }
+  try { body = readBody(req, 8192); } catch { return sendJson(res, 400, { error: 'Некорректные данные запроса.' }); }
   const webhookUrl = typeof body.webhookUrl === 'string' ? body.webhookUrl.trim() : '';
   const message = typeof body.message === 'string' ? body.message.trim() : '';
   if (!webhookUrl || webhookUrl.length > 500) return sendJson(res, 400, { error: 'Вставь корректную ссылку вебхука.' });
@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const limit = await consumeRateLimit(req, 'discord_webhook_send', 5, 60);
-    if (!limit.allowed) return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту перед следующей отправкой.' });
+    if (!limit.allowed) { res.setHeader('Retry-After', '60'); return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту перед следующей отправкой.' }); }
     const response = await fetch(url.href, {
       method: 'POST',
       redirect: 'error',
