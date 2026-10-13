@@ -1,8 +1,11 @@
-const { sendJson, methodOnly, readBody, consumeRateLimit, verifySession, requireSameOrigin } = require('../../lib/security');
+const { sendJson, methodOnly, readBody, consumeRateLimit, verifySession, requireSameOrigin, auditEvent } = require('../../lib/security');
 
 module.exports = async function handler(req, res) {
   if (!methodOnly(req, res, 'POST') || !requireSameOrigin(req, res)) return;
-  if (!await verifySession(req)) return sendJson(res, 401, { error: 'Войди в панель владельца.' });
+  if (!await verifySession(req)) {
+    auditEvent(req, 'admin_action_rejected', { route: '/api/admin/discord-webhook', reason: 'invalid_session' });
+    return sendJson(res, 401, { error: 'Войди в панель владельца.' });
+  }
 
   let body;
   try { body = readBody(req, 8192); } catch { return sendJson(res, 400, { error: 'Некорректные данные запроса.' }); }
@@ -19,7 +22,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const limit = await consumeRateLimit(req, 'discord_webhook_send', 5, 60);
-    if (!limit.allowed) { res.setHeader('Retry-After', '60'); return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту перед следующей отправкой.' }); }
+    if (!limit.allowed) { res.setHeader('Retry-After', '60'); auditEvent(req, 'admin_webhook_rate_limited', { rateLimit: limit.mode }); return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту перед следующей отправкой.' }); }
     const response = await fetch(url.href, {
       method: 'POST',
       redirect: 'error',
@@ -27,12 +30,15 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({ content: message, allowed_mentions: { parse: [] } })
     });
     if (!response.ok) {
+      auditEvent(req, 'admin_webhook_upstream_rejected', { upstreamStatus: response.status });
       if (response.status === 401 || response.status === 404) return sendJson(res, 400, { error: 'Discord отклонил ссылку вебхука. Проверь, что она актуальна.' });
       if (response.status === 429) return sendJson(res, 429, { error: 'Discord временно ограничил отправку. Попробуй чуть позже.' });
       return sendJson(res, 502, { error: 'Discord не принял сообщение. Попробуй позже.' });
     }
+    auditEvent(req, 'admin_webhook_sent');
     return sendJson(res, 200, { ok: true });
   } catch (err) {
+    auditEvent(req, 'admin_webhook_service_error');
     return sendJson(res, 503, { error: 'Не удалось связаться с Discord или службой ограничения запросов.' });
   }
 };
