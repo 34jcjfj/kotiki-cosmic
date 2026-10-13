@@ -24,6 +24,16 @@ test('readBody rejects oversized parsed and string bodies', () => {
   assert.throws(() => security.readBody({ headers: {}, body: '{' + 'x'.repeat(5000) }), /Слишком большой/);
 });
 
+test('readBody rejects non-object JSON payloads', () => {
+  for (const body of ['null', 'false', '123', '"text"', '[]']) {
+    assert.throws(() => security.readBody({ headers: {}, body }), /Некорректные данные/);
+  }
+  assert.throws(() => security.readBody({ headers: {}, body: null }), /Некорректные данные/);
+  assert.throws(() => security.readBody({ headers: {}, body: [] }), /Некорректные данные/);
+  assert.deepEqual(security.readBody({ headers: {} }), {});
+  assert.deepEqual(security.readBody({ headers: {}, body: '' }), {});
+});
+
 test('session signatures are verified and tampering is rejected', () => {
   const previous = process.env.KOTIKI_SESSION_SECRET;
   process.env.KOTIKI_SESSION_SECRET = 'test-only-secret-that-is-at-least-32-characters';
