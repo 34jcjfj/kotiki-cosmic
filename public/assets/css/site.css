@@ -215,13 +215,16 @@ footer,.site-footer{animation:footer-glow 8s ease-in-out infinite}
  .btn,.glass,.brand-icon{will-change:auto}
 }
 
-/* Secret effects for the five discoverable easter eggs. */
-body.egg-logo .brand-icon{animation:icon-wiggle .42s ease-in-out 5, violet-pulse 2s ease-in-out 3}
+
+/* Five difficulty-tiered easter egg effects, friendly to touch screens. */
+body.egg-logo .brand-icon{animation:icon-wiggle .42s ease-in-out 5,violet-pulse 2s ease-in-out 3}
 body.egg-word .cosmic-glow{opacity:.95;filter:saturate(1.5) brightness(1.2)}
 body.egg-avatar #serverAvatar{animation:avatar-halo .8s ease-in-out 6;transform:scale(1.08)}
 body.egg-online .status-pill{animation:cyan-pulse .7s ease-out 5;border-color:#63e8ff;box-shadow:0 0 24px #63e8ff35}
 body.egg-konami .meteor-layer{opacity:1;filter:brightness(1.8) saturate(1.6)}
 body.egg-konami .planet{animation:card-float .7s ease-in-out 8}
+.brand,.planet-cat,#onlineCount,#serverAvatar,footer{touch-action:manipulation}
+footer{user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){
  body.egg-logo .brand-icon,body.egg-word .cosmic-glow,body.egg-avatar #serverAvatar,body.egg-online .status-pill,body.egg-konami .planet{animation:none!important}
 }
