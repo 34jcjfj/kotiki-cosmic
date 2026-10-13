@@ -109,5 +109,49 @@
   }
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateScrollUI();});
 
+
+  // Five real, discoverable-but-secret KOTIKI COSMIC easter eggs.
+  const foundEggs=new Set();
+  function discoverEgg(id,title,detail){
+    if(foundEggs.has(id))return;
+    foundEggs.add(id);
+    document.body.classList.add('egg-'+id);
+    toast(`🐾 Пасхалка найдена: ${title}!`);
+    if(foundEggs.size===5) setTimeout(()=>toast('🌌 Ты нашёл все 5 пасхалок! Настоящий исследователь галактики котиков!'),900);
+  }
+  function countClicks(node,needed,id,title,detail,windowMs=1800){
+    if(!node)return;
+    let count=0,timer=0;
+    node.addEventListener('click',()=>{
+      count++;
+      clearTimeout(timer);
+      if(count>=needed){count=0;discoverEgg(id,title,detail);}
+      else timer=setTimeout(()=>{count=0;},windowMs);
+    });
+  }
+  // 1. Tap the cat logo five times.
+  countClicks($('#brandIcon'),5,'logo','Кошачий привет','Логотип хранит секрет.');
+  // 2. Type KOTIKI anywhere on the page (not while entering a form).
+  let typedSecret='';
+  document.addEventListener('keydown',event=>{
+    if(event.ctrlKey||event.altKey||event.metaKey||event.target?.matches('input,textarea,[contenteditable="true"]'))return;
+    if(event.key.length!==1)return;
+    typedSecret=(typedSecret+event.key.toUpperCase()).slice(-6);
+    if(typedSecret==='KOTIKI'){typedSecret='';discoverEgg('word','Слово силы','Ты знаешь пароль галактики.');}
+  });
+  // 3. Tap the Discord avatar seven times.
+  countClicks($('#serverAvatar'),7,'avatar','Орбитальный кот','Котик открыл секретную орбиту.',2500);
+  // 4. Tap the online-status label five times.
+  countClicks($('#onlineCount'),5,'online','Связь с галактикой','Ты нашёл скрытый сигнал.',2000);
+  // 5. Enter the classic up-up-down-down-left-right-left-right-B-A sequence.
+  const secretSequence=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let sequenceIndex=0;
+  document.addEventListener('keydown',event=>{
+    if(event.target?.matches('input,textarea,[contenteditable="true"]'))return;
+    const key=event.key.length===1?event.key.toLowerCase():event.key;
+    sequenceIndex=key===secretSequence[sequenceIndex]?sequenceIndex+1:(key===secretSequence[0]?1:0);
+    if(sequenceIndex===secretSequence.length){sequenceIndex=0;discoverEgg('konami','Секретный космос','Ты активировал скрытый режим.');}
+  });
+
   loadDiscordInviteMeta();
 })();
