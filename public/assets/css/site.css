@@ -68,7 +68,6 @@ a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
 .partner-checklist li::marker{color:var(--cyan)}
 @media(max-width:620px){.partner-panel{grid-template-columns:1fr;padding:21px}.partner-symbol{width:58px;height:58px;border-radius:18px}.partner-copy .btn{width:100%}}
 
-
 /* Extra KOTIKI COSMIC motion: lively, restrained, and keyboard-friendly */
 @keyframes title-shimmer{0%,100%{background-position:0% 50%;filter:drop-shadow(0 0 0 #63e8ff00)}50%{background-position:100% 50%;filter:drop-shadow(0 0 12px #63e8ff22)}}
 @keyframes icon-bloom{0%,100%{box-shadow:0 0 0 0 #63e8ff00;transform:translateY(0) rotate(0)}50%{box-shadow:0 0 0 7px #63e8ff08;transform:translateY(-3px) rotate(-2deg)}}
@@ -101,4 +100,57 @@ a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
 @media(prefers-reduced-motion:reduce){
   .hero h1.gothic-title,.spark,.security-orb,.section-head .eyebrow{animation:none!important}
   .glass::after,.btn::after{display:none!important}
+}
+
+
+/* More cosmic motion — layered ambience, polished hover states, and accessible timing */
+@keyframes aurora-drift{0%,100%{transform:translate3d(-2%,0,0) rotate(-3deg) scale(1)}50%{transform:translate3d(2%,2%,0) rotate(3deg) scale(1.06)}}
+@keyframes ring-breathe{0%,100%{opacity:.38;filter:drop-shadow(0 0 4px #63e8ff18)}50%{opacity:.85;filter:drop-shadow(0 0 14px #a78bfa38)}}
+@keyframes icon-tilt{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-3px) rotate(-5deg)}70%{transform:translateY(1px) rotate(3deg)}}
+@keyframes nav-glow{0%,100%{opacity:.25;transform:scaleX(.35)}50%{opacity:1;transform:scaleX(1)}}
+@keyframes shimmer-sweep{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes gentle-pop{0%{transform:scale(.96);opacity:.65}70%{transform:scale(1.025)}100%{transform:scale(1);opacity:1}}
+@keyframes star-drift{0%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(5px,-8px,0) rotate(12deg)}100%{transform:translate3d(0,0,0) rotate(0)}}
+.cosmic-glow{transform-origin:center;will-change:transform,opacity}
+.glow-a{animation:glow-breathe 14s ease-in-out infinite alternate,aurora-drift 24s ease-in-out infinite}
+.glow-b{animation:glow-breathe 18s ease-in-out infinite alternate-reverse,aurora-drift 30s ease-in-out infinite reverse}
+.orbit{animation:spin 34s linear infinite,ring-breathe 8s ease-in-out infinite}
+.orbit.two{animation:spin 48s linear infinite reverse,ring-breathe 11s ease-in-out infinite reverse}
+.planet{transition:filter .5s ease,box-shadow .5s ease}
+.orbit-wrap:hover .planet{filter:saturate(1.12) brightness(1.04);box-shadow:inset -28px -22px 48px #050719cc,0 0 82px #6d82ff55,0 0 145px #a78bfa2a}
+.orbit-wrap:hover .orbit{border-color:#a8edff70}
+.planet:after{animation:star-drift 5s ease-in-out infinite}
+.brand-icon{transition:transform .4s var(--ease-cosmic),box-shadow .4s}
+.brand:hover .brand-icon{transform:rotate(-8deg) scale(1.06);box-shadow:0 0 34px #8b9dff66}
+.nav-actions .btn,.drawer-links a,.drawer-links button{transition:transform .25s var(--ease-cosmic),border-color .25s,background .25s,box-shadow .25s}
+.nav-actions .btn:hover,.drawer-links a:hover,.drawer-links button:hover{box-shadow:0 7px 22px #63e8ff12}
+.nav-actions .btn:active,.drawer-links a:active,.drawer-links button:active,.btn:active{transform:translateY(1px) scale(.985)}
+.brand{position:relative}
+.brand:after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:1px;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent);transition:transform .35s var(--ease-cosmic)}
+.brand:hover:after{transform:scaleX(1)}
+.section-head h2{background:linear-gradient(100deg,#f4f6ff 10%,#bcefff 42%,#cbbdff 68%,#f4f6ff 90%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;transition:filter .3s}
+.section-head:hover h2{animation:shimmer-sweep 2.2s ease-in-out}
+.feature-icon{will-change:transform}
+.glass:hover .feature-icon{animation:icon-tilt .7s ease-in-out}
+.security-orb{position:relative;overflow:hidden}
+.security-orb:after,.partner-symbol:after{content:"";position:absolute;inset:-45%;pointer-events:none;background:linear-gradient(115deg,transparent 38%,#c7f8ff28 50%,transparent 62%);transform:translateX(-65%) rotate(12deg);transition:transform .7s var(--ease-cosmic)}
+.security-panel:hover .security-orb:after,.partner-panel:hover .partner-symbol:after{transform:translateX(65%) rotate(12deg)}
+.partner-symbol{position:relative;overflow:hidden}
+.music-fab{transition:transform .3s var(--ease-cosmic),box-shadow .3s,border-color .3s}
+.music-fab:hover{transform:translateY(-4px) rotate(-5deg);box-shadow:0 16px 44px #63e8ff20}
+.music-fab.playing{animation:pulse 2s infinite,icon-tilt 5s ease-in-out infinite}
+.status-pill{transition:color .25s}
+.status-pill:hover{color:#e6fbff}
+.status-dot{animation:status-pulse 2.4s ease-in-out infinite,ring-breathe 4s ease-in-out infinite}
+.float-card{transition:border-color .3s,box-shadow .3s}
+.float-card:hover{border-color:#8beeff70;box-shadow:0 20px 58px #0004,0 0 28px #63e8ff12}
+.spark-one{animation:tiny-twinkle 3.2s ease-in-out infinite,star-drift 7s ease-in-out infinite}
+.spark-two{animation:tiny-twinkle 4s ease-in-out infinite -1.4s,star-drift 6s ease-in-out infinite reverse}
+.modal,.drawer{will-change:transform}
+.modal-backdrop.open .modal{animation:gentle-pop .3s var(--ease-cosmic) both}
+.drawer-backdrop.open .drawer{animation:gentle-pop .32s var(--ease-cosmic) both}
+@media(prefers-reduced-motion:reduce){
+  .glow-a,.glow-b,.orbit,.orbit.two,.planet:after,.brand:hover .brand-icon,.glass:hover .feature-icon,.music-fab.playing,.status-dot,.spark-one,.spark-two,.modal-backdrop.open .modal,.drawer-backdrop.open .drawer{animation:none!important}
+  .section-head:hover h2{animation:none!important}
+  .brand:after{transition:none}
 }
