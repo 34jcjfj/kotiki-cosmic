@@ -14,6 +14,14 @@ Keep all credentials in Vercel Environment Variables; never commit real values i
 - `vercel.json` defines security headers and a Content Security Policy.
 - GitHub Actions checks JavaScript syntax, JSON configuration, helper behavior, and runs CodeQL static analysis.
 
+## Audit monitoring and recovery
+
+- Security events are written as structured JSON to Vercel Runtime Logs with a timestamp and a truncated SHA-256 hash of the client IP. Never log passwords, recovery keys, cookies, session tokens, webhook URLs, or message contents.
+- Events include login success/failure and rate limiting, recovery success/failure and rate limiting, rejected or verified owner sessions, logout revocation outcomes, and protected Discord webhook outcomes.
+- Review Vercel Runtime Logs after unexpected login prompts, logout failures, Redis errors, or suspicious admin activity. The app writes logs; it does not by itself guarantee real-time alerts or long-term retention. Configure alerting/retention in the hosting dashboard if available.
+- The recovery key is an alternate way to create an owner session, not a password reset. Store it separately from the admin password. If a credential may have leaked, rotate it in Vercel and redeploy; changing the session signing secret invalidates existing sessions.
+- Recovery checklist: (1) rotate the potentially exposed secret; (2) verify the production environment target; (3) redeploy; (4) check `/api/health`; (5) test login, logout, recovery, and one protected action; (6) review logs for failures. Do not paste secret values into tickets or chat.
+
 ## Important limitations
 
 - The in-memory rate-limit fallback is best-effort only. Serverless instances do not share memory. Configure `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel for a shared limiter.
