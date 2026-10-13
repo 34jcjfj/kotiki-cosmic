@@ -9,7 +9,8 @@ Keep all credentials in Vercel Environment Variables; never commit real values i
 - State-changing owner endpoints require a matching HTTPS Origin; missing, malformed, insecure, or cross-site origins are rejected.
 - Request bodies are size-limited before business logic is processed; oversized requests are rejected.
 - Login, recovery, and webhook sending have application-level rate limits and return `Retry-After` when the local limit is reached.
-- Rate-limit and audit keys prefer Vercel's platform-provided client-IP header. Logs hash the IP and never include passwords, recovery keys, cookies, or raw IP addresses.
+- Rate-limit and audit keys use Vercel's platform-provided `x-real-ip` header when available; the app does not trust `x-forwarded-for` as a fallback. Logs hash the IP and never include passwords, recovery keys, cookies, or raw IP addresses.
+- Session verification rejects oversized tokens and malformed Base64URL token segments before parsing.
 - `vercel.json` defines security headers and a Content Security Policy.
 - GitHub Actions checks JavaScript syntax, JSON configuration, helper behavior, and runs CodeQL static analysis.
 
