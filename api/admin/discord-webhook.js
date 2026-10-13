@@ -2,7 +2,7 @@ const { sendJson, methodOnly, readBody, consumeRateLimit, verifySession, require
 
 module.exports = async function handler(req, res) {
   if (!methodOnly(req, res, 'POST') || !requireSameOrigin(req, res)) return;
-  if (!verifySession(req)) return sendJson(res, 401, { error: 'Войди в панель владельца.' });
+  if (!await verifySession(req)) return sendJson(res, 401, { error: 'Войди в панель владельца.' });
 
   let body;
   try { body = readBody(req, 8192); } catch { return sendJson(res, 400, { error: 'Некорректные данные запроса.' }); }
