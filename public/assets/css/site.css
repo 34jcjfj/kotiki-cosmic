@@ -167,3 +167,50 @@ a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
 :where(a,button,input,textarea):focus-visible{outline:2px solid #8be8ff;outline-offset:4px}
 @media(max-width:600px){.back-to-top{right:14px;bottom:calc(env(safe-area-inset-bottom) + 78px);width:42px;height:42px;border-radius:14px}}
 @media(prefers-reduced-motion:reduce){.back-to-top,.glass{transition:none!important}.back-to-top{transform:none!important}}
+
+
+/* Extra cosmic animation pack — twenty additional, lightweight motion details. */
+@keyframes nebula-breathe{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.68;transform:scale(1.08)}}
+@keyframes comet-slide{0%{transform:translate3d(-18vw,-12vh,0);opacity:0}12%{opacity:.9}78%{opacity:.8}100%{transform:translate3d(115vw,65vh,0);opacity:0}}
+@keyframes cyan-pulse{0%,100%{box-shadow:0 0 0 0 #63e8ff00}50%{box-shadow:0 0 0 7px #63e8ff18}}
+@keyframes violet-pulse{0%,100%{filter:drop-shadow(0 0 2px #a78bfa20)}50%{filter:drop-shadow(0 0 12px #a78bfa85)}}
+@keyframes card-float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@keyframes icon-wiggle{0%,100%{rotate:0deg}25%{rotate:-5deg}75%{rotate:5deg}}
+@keyframes button-ripple{0%{box-shadow:0 0 0 0 #63e8ff35}100%{box-shadow:0 0 0 12px #63e8ff00}}
+@keyframes border-run{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes badge-bob{0%,100%{translate:0 0}50%{translate:0 -2px}}
+@keyframes avatar-halo{0%,100%{box-shadow:0 0 0 2px #63e8ff25,0 0 14px #63e8ff20}50%{box-shadow:0 0 0 4px #a78bfa50,0 0 25px #a78bfa35}}
+@keyframes link-underline{0%{background-size:0% 2px}100%{background-size:100% 2px}}
+@keyframes section-bloom{0%{opacity:.75;filter:brightness(.94)}50%{opacity:1;filter:brightness(1.06)}100%{opacity:1;filter:brightness(1)}}
+@keyframes star-flicker{0%,100%{opacity:.25;scale:.8}45%{opacity:1;scale:1.15}65%{opacity:.6;scale:.95}}
+@keyframes meteor-glide{0%{translate:-25px -12px;opacity:0}15%{opacity:.85}85%{opacity:.7}100%{translate:70px 40px;opacity:0}}
+@keyframes glow-sweep{0%{background-position:180% 0}100%{background-position:-180% 0}}
+@keyframes orbit-rotate-slow{from{rotate:0deg}to{rotate:360deg}}
+@keyframes orbit-rotate-reverse{from{rotate:360deg}to{rotate:0deg}}
+@keyframes music-wave{0%,100%{scale:1 .65}50%{scale:1 1.15}}
+@keyframes status-blink{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes footer-glow{0%,100%{text-shadow:0 0 0 #63e8ff00}50%{text-shadow:0 0 16px #63e8ff35}}
+/* Apply the new motion as small accents, not constant movement across every element. */
+.glow-a{animation:nebula-breathe 12s ease-in-out infinite}
+.glow-b{animation:nebula-breathe 15s ease-in-out infinite -5s}
+.btn.primary:not(:disabled):hover,.btn.primary:not(:disabled):focus-visible{animation:button-ripple 1s ease-out}
+.brand-icon,.feature-icon{animation:violet-pulse 5s ease-in-out infinite}
+.glass:nth-of-type(3n){animation:card-float 7s ease-in-out infinite}
+.glass:nth-of-type(3n + 1){animation:section-bloom .7s ease-out both}
+.glass .feature-icon{transition:transform .3s ease}
+.glass:hover .feature-icon{animation:icon-wiggle .42s ease-in-out}
+.badge,.status-pill{animation:badge-bob 5s ease-in-out infinite}
+#serverAvatar.visible{animation:avatar-halo 4s ease-in-out infinite}
+a:not(.btn):hover{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px}
+.status-dot,.online-indicator{animation:status-blink 2.2s ease-in-out infinite}
+.music-fab.playing{animation:cyan-pulse 2s ease-out infinite}
+footer,.site-footer{animation:footer-glow 8s ease-in-out infinite}
+.orbit{animation:orbit-rotate-slow 42s linear infinite}
+.orbit.two{animation:orbit-rotate-reverse 58s linear infinite}
+.stars:before{animation:star-flicker 6s ease-in-out infinite}
+.stars:after{animation:star-flicker 8s ease-in-out infinite -3s}
+.btn,.glass,.brand-icon{will-change:transform}
+@media(prefers-reduced-motion:reduce){
+ .glow-a,.glow-b,.btn.primary:not(:disabled):hover,.btn.primary:not(:disabled):focus-visible,.brand-icon,.feature-icon,.glass:nth-of-type(3n),.glass:nth-of-type(3n + 1),.glass:hover .feature-icon,.badge,.status-pill,#serverAvatar.visible,.status-dot,.online-indicator,.music-fab.playing,footer,.site-footer,.orbit,.orbit.two,.stars:before,.stars:after{animation:none!important}
+ .btn,.glass,.brand-icon{will-change:auto}
+}
