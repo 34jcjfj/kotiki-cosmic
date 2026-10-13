@@ -44,6 +44,34 @@ test('session signatures are verified and tampering is rejected', () => {
   }
 });
 
+test('session verification rejects expired, overlong, malformed, and unexpected claims', () => {
+  const crypto = require('node:crypto');
+  const previous = process.env.KOTIKI_SESSION_SECRET;
+  const secret = 'test-only-secret-that-is-at-least-32-characters';
+  process.env.KOTIKI_SESSION_SECRET = secret;
+  const tokenFor = claims => {
+    const payload = Buffer.from(JSON.stringify(claims)).toString('base64url');
+    const signature = crypto.createHmac('sha256', secret).update(payload).digest('base64url');
+    return `${payload}.${signature}`;
+  };
+  const now = Math.floor(Date.now() / 1000);
+  const valid = { role: 'owner', exp: now + 600, nonce: 'a'.repeat(24) };
+  const isValid = claims => security.verifySession({
+    headers: { cookie: `${security.COOKIE_NAME}=${tokenFor(claims)}` }
+  });
+  try {
+    assert.equal(isValid(valid), true);
+    assert.equal(isValid({ ...valid, exp: now - 1 }), false);
+    assert.equal(isValid({ ...valid, exp: now + 3601 }), false);
+    assert.equal(isValid({ ...valid, role: 'visitor' }), false);
+    assert.equal(isValid({ ...valid, nonce: 'not-a-valid-nonce' }), false);
+    assert.equal(isValid({ ...valid, exp: 'tomorrow' }), false);
+  } finally {
+    if (previous === undefined) delete process.env.KOTIKI_SESSION_SECRET;
+    else process.env.KOTIKI_SESSION_SECRET = previous;
+  }
+});
+
 test('session cookie is HttpOnly, Secure, SameSite=Strict, and short-lived', () => {
   let cookie = '';
   const res = { setHeader(name, value) { if (name === 'Set-Cookie') cookie = value; } };
