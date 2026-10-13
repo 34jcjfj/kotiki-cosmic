@@ -66,5 +66,48 @@
   (async()=>{try{const data=await api('/api/health',{method:'GET',headers:{}});$('#shieldStatus').textContent=data.rateLimit==='distributed'?'Серверная защита активна · распределённый лимит запросов':'Серверный вход активен · лимит запросов базовый';}catch{$('#shieldStatus').textContent='Серверная функция не отвечает — проверь публикацию.';}})();
   $('#musicToggle').addEventListener('click',async()=>{const audio=$('#siteAudio');if(!audio.src){toast('Добавь MP3-ссылку в настройках сайта.');return;}if(audio.paused){try{await audio.play();$('#musicToggle').classList.add('playing');toast('Музыка включена 🎵');}catch{toast('Браузер не разрешил воспроизведение. Нажми ещё раз.');}}else{audio.pause();$('#musicToggle').classList.remove('playing');toast('Музыка выключена');}});
   async function loadDiscordInviteMeta(){const fallbackDate=discordCreatedAt('1431670233474662601');if(fallbackDate)renderAge(fallbackDate);const invite=($('#cfgInvite')?.value||INVITE_DEFAULT);const match=invite.match(/discord\.gg\/([\w-]+)/i)||invite.match(/discord\.com\/invite\/([\w-]+)/i);if(!match)return;try{const res=await fetch(`https://discord.com/api/v10/invites/${encodeURIComponent(match[1])}?with_counts=true`,{cache:'no-store'});if(!res.ok)return;const data=await res.json();if(data.guild?.icon){const img=$('#serverAvatar');img.src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;img.classList.add('visible');$('#brandIcon').style.display='none';}if(Number.isFinite(data.approximate_presence_count))$('#onlineCount').textContent=`${data.approximate_presence_count} онлайн`;if(data.guild?.id){const date=discordCreatedAt(data.guild.id);if(date){renderAge(date);clearInterval(serverAgeTimer);serverAgeTimer=setInterval(()=>renderAge(date),3600000);}}}catch{const id='1431670233474662601';const date=discordCreatedAt(id);if(date)renderAge(date);}}
+
+  // Lightweight global navigation polish: reading progress and a keyboard-friendly return button.
+  const progress=document.createElement('div');
+  progress.className='scroll-progress';
+  progress.setAttribute('aria-hidden','true');
+  const progressFill=document.createElement('span');
+  progress.append(progressFill);
+  document.body.append(progress);
+  const backTop=document.createElement('button');
+  backTop.className='back-to-top';
+  backTop.type='button';
+  backTop.setAttribute('aria-label','Вернуться в начало страницы');
+  backTop.title='Наверх';
+  backTop.textContent='↑';
+  document.body.append(backTop);
+  let scrollFrame=0;
+  const updateScrollUI=()=>{
+    scrollFrame=0;
+    const root=document.documentElement;
+    const max=Math.max(1,root.scrollHeight-window.innerHeight);
+    root.style.setProperty('--scroll-progress',String(Math.min(1,Math.max(0,window.scrollY/max))));
+    backTop.classList.toggle('visible',window.scrollY>520);
+  };
+  window.addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(updateScrollUI);},{passive:true});
+  window.addEventListener('resize',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(updateScrollUI);},{passive:true});
+  backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
+  updateScrollUI();
+
+  // Subtle card tilt is limited to mouse-like pointers and respects reduced-motion preferences.
+  if(!reduce&&window.matchMedia?.('(pointer: fine)').matches){
+    $('.glass').forEach(card=>{
+      card.addEventListener('pointermove',event=>{
+        const rect=card.getBoundingClientRect();
+        const x=(event.clientX-rect.left)/Math.max(1,rect.width);
+        const y=(event.clientY-rect.top)/Math.max(1,rect.height);
+        card.style.transform=`perspective(900px) rotateX(${((.5-y)*2.2).toFixed(2)}deg) rotateY(${((x-.5)*2.8).toFixed(2)}deg) translateY(-2px)`;
+      },{passive:true});
+      card.addEventListener('pointerleave',()=>{card.style.transform='';},{passive:true});
+      card.addEventListener('blur',()=>{card.style.transform='';},true);
+    });
+  }
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateScrollUI();});
+
   loadDiscordInviteMeta();
 })();
