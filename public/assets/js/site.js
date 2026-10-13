@@ -110,48 +110,59 @@
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateScrollUI();});
 
 
-  // Five real, discoverable-but-secret KOTIKI COSMIC easter eggs.
+  // Five cross-device easter eggs with increasing difficulty.
   const foundEggs=new Set();
-  function discoverEgg(id,title,detail){
+  function discoverEgg(id,title,difficulty){
     if(foundEggs.has(id))return;
     foundEggs.add(id);
     document.body.classList.add('egg-'+id);
-    toast(`🐾 Пасхалка найдена: ${title}!`);
-    if(foundEggs.size===5) setTimeout(()=>toast('🌌 Ты нашёл все 5 пасхалок! Настоящий исследователь галактики котиков!'),900);
+    toast(`🐾 ${difficulty}: найдена пасхалка «${title}»!`);
+    if(foundEggs.size===5)setTimeout(()=>toast('🌌 Все 5 пасхалок найдены! Ты легенда KOTIKI COSMIC!'),900);
   }
-  function countClicks(node,needed,id,title,detail,windowMs=1800){
+  function countClicks(node,needed,id,title,difficulty,windowMs=2200){
     if(!node)return;
     let count=0,timer=0;
     node.addEventListener('click',()=>{
-      count++;
-      clearTimeout(timer);
-      if(count>=needed){count=0;discoverEgg(id,title,detail);}
+      count++;clearTimeout(timer);
+      if(count>=needed){count=0;discoverEgg(id,title,difficulty);}
       else timer=setTimeout(()=>{count=0;},windowMs);
     });
   }
-  // 1. Tap the cat logo five times.
-  countClicks($('#brandIcon'),5,'logo','Кошачий привет','Логотип хранит секрет.');
-  // 2. Type KOTIKI anywhere on the page (not while entering a form).
+  // 1 — EASY: tap the brand mark three times.
+  countClicks($('.brand'),3,'logo','Кошачий привет','EASY',2400);
+  // 2 — EASY: tap the little cat in the hero four times.
+  countClicks($('.planet-cat'),4,'word','Космический котик','EASY',2600);
+  // 3 — MEDIUM: tap the online counter six times.
+  countClicks($('#onlineCount'),6,'online','Секретный сигнал','MEDIUM',2600);
+  // 4 — HARD: tap the server avatar eight times.
+  countClicks($('#serverAvatar'),8,'avatar','Орбитальный кот','HARD',3200);
+  // 5 — VERY HARD: press and hold the footer for 2.8 seconds. Works with touch and mouse.
+  const footerSecret=$('footer');
+  if(footerSecret){
+    let holdTimer=0,holdTriggered=false;
+    const startHold=()=>{holdTriggered=false;clearTimeout(holdTimer);holdTimer=setTimeout(()=>{holdTriggered=true;discoverEgg('konami','Хранитель галактики','VERY HARD');},2800);};
+    const cancelHold=()=>clearTimeout(holdTimer);
+    footerSecret.addEventListener('pointerdown',startHold,{passive:true});
+    ['pointerup','pointercancel','pointerleave'].forEach(type=>footerSecret.addEventListener(type,cancelHold,{passive:true}));
+    footerSecret.addEventListener('contextmenu',event=>{if(holdTriggered)event.preventDefault();});
+  }
+  // Extra keyboard shortcuts remain available on laptops, but none are required on phones.
   let typedSecret='';
   document.addEventListener('keydown',event=>{
     if(event.ctrlKey||event.altKey||event.metaKey||event.target?.matches('input,textarea,[contenteditable="true"]'))return;
     if(event.key.length!==1)return;
     typedSecret=(typedSecret+event.key.toUpperCase()).slice(-6);
-    if(typedSecret==='KOTIKI'){typedSecret='';discoverEgg('word','Слово силы','Ты знаешь пароль галактики.');}
+    if(typedSecret==='KOTIKI'){typedSecret='';discoverEgg('word','Космический котик','EASY · клавиатурный бонус');}
   });
-  // 3. Tap the Discord avatar seven times.
-  countClicks($('#serverAvatar'),7,'avatar','Орбитальный кот','Котик открыл секретную орбиту.',2500);
-  // 4. Tap the online-status label five times.
-  countClicks($('#onlineCount'),5,'online','Связь с галактикой','Ты нашёл скрытый сигнал.',2000);
-  // 5. Enter the classic up-up-down-down-left-right-left-right-B-A sequence.
   const secretSequence=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let sequenceIndex=0;
   document.addEventListener('keydown',event=>{
     if(event.target?.matches('input,textarea,[contenteditable="true"]'))return;
     const key=event.key.length===1?event.key.toLowerCase():event.key;
     sequenceIndex=key===secretSequence[sequenceIndex]?sequenceIndex+1:(key===secretSequence[0]?1:0);
-    if(sequenceIndex===secretSequence.length){sequenceIndex=0;discoverEgg('konami','Секретный космос','Ты активировал скрытый режим.');}
+    if(sequenceIndex===secretSequence.length){sequenceIndex=0;discoverEgg('konami','Секретный космос','HARD · клавиатурный бонус');}
   });
+
 
   loadDiscordInviteMeta();
 })();
