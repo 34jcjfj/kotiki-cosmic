@@ -74,8 +74,8 @@ test('distributed rate limit uses one atomic Redis command and bounds network ti
     assert.equal(request.body.length, 1);
     assert.equal(request.body[0][0], 'EVAL');
     assert.match(request.body[0][1], /if count == 1 then redis\.call\('EXPIRE'/);
-    assert.equal(request.body[0][2], 1);
-    assert.equal(request.body[0][4], 60);
+    assert.equal(request.body[0][2], '1');
+    assert.equal(request.body[0][4], '60');
     assert.ok(request.options.signal);
   } finally {
     global.fetch = previousFetch;
