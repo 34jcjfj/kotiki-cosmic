@@ -53,3 +53,35 @@ test('session cookie is HttpOnly, Secure, SameSite=Strict, and short-lived', () 
   assert.match(cookie, /SameSite=Strict/);
   assert.match(cookie, /Max-Age=1800/);
 });
+
+
+test('distributed rate limit uses one atomic Redis command and bounds network time', async () => {
+  const previousUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const previousToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const previousFetch = global.fetch;
+  let request;
+  process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example';
+  process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token';
+  global.fetch = async (url, options) => {
+    request = { url, options, body: JSON.parse(options.body) };
+    return { ok: true, async json() { return [{ result: 3 }]; } };
+  };
+  try {
+    const result = await security.consumeRateLimit({ headers: { 'x-real-ip': '203.0.113.10' } }, 'test', 2, 60);
+    assert.equal(result.allowed, false);
+    assert.equal(result.mode, 'distributed');
+    assert.equal(request.url, 'https://redis.example/pipeline');
+    assert.equal(request.body.length, 1);
+    assert.equal(request.body[0][0], 'EVAL');
+    assert.match(request.body[0][1], /if count == 1 then redis\.call\('EXPIRE'/);
+    assert.equal(request.body[0][2], 1);
+    assert.equal(request.body[0][4], 60);
+    assert.ok(request.options.signal);
+  } finally {
+    global.fetch = previousFetch;
+    if (previousUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL;
+    else process.env.UPSTASH_REDIS_REST_URL = previousUrl;
+    if (previousToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN;
+    else process.env.UPSTASH_REDIS_REST_TOKEN = previousToken;
+  }
+});
