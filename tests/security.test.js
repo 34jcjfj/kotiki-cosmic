@@ -85,3 +85,14 @@ test('distributed rate limit uses one atomic Redis command and bounds network ti
     else process.env.UPSTASH_REDIS_REST_TOKEN = previousToken;
   }
 });
+
+
+test('security headers include cross-origin isolation and legacy policy protections', () => {
+  const headers = {};
+  const res = { setHeader(name, value) { headers[name] = value; } };
+  security.setSecurityHeaders(res);
+  assert.equal(headers['Cross-Origin-Opener-Policy'], 'same-origin');
+  assert.equal(headers['Cross-Origin-Resource-Policy'], 'same-origin');
+  assert.equal(headers['X-Permitted-Cross-Domain-Policies'], 'none');
+  assert.equal(headers['X-DNS-Prefetch-Control'], 'off');
+});
