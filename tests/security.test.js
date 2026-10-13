@@ -36,6 +36,8 @@ test('session signatures are verified and tampering is rejected', () => {
     const tampered = `${tamperedPayload}.${signature}`;
     assert.equal(security.verifySession({ headers: { cookie: `${security.COOKIE_NAME}=${tampered}` } }), false);
     assert.equal(security.verifySession({ headers: { cookie: '' } }), false);
+    assert.equal(security.verifySession({ headers: { cookie: `${security.COOKIE_NAME}=${'x'.repeat(2049)}` } }), false);
+    assert.equal(security.verifySession({ headers: { cookie: `${security.COOKIE_NAME}=not*base64.signature` } }), false);
   } finally {
     if (previous === undefined) delete process.env.KOTIKI_SESSION_SECRET;
     else process.env.KOTIKI_SESSION_SECRET = previous;
