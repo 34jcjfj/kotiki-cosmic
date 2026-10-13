@@ -154,3 +154,16 @@ a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
   .section-head:hover h2{animation:none!important}
   .brand:after{transition:none}
 }
+
+/* Cosmic interaction layer: progress, accessible back-to-top, and restrained depth. */
+:root{--scroll-progress:0}
+.scroll-progress{position:fixed;z-index:120;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:transparent}
+.scroll-progress span{display:block;width:100%;height:100%;transform:scaleX(var(--scroll-progress));transform-origin:left center;background:linear-gradient(90deg,#65e8ff,#a98bff,#ff9bd8);box-shadow:0 0 12px #79dcff80;will-change:transform}
+.back-to-top{position:fixed;z-index:80;right:max(18px,env(safe-area-inset-right));bottom:max(84px,calc(env(safe-area-inset-bottom) + 76px));width:46px;height:46px;display:grid;place-items:center;border:1px solid #a7c8ff50;border-radius:16px;background:#111a36df;color:#fff;font:inherit;font-size:1.25rem;box-shadow:0 10px 32px #0005;backdrop-filter:blur(14px);opacity:0;visibility:hidden;transform:translateY(10px) scale(.96);transition:opacity .25s ease,transform .25s ease,visibility .25s ease,border-color .25s ease;cursor:pointer}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.back-to-top:hover,.back-to-top:focus-visible{border-color:#8be8ff;box-shadow:0 0 0 3px #7be8ff24,0 10px 32px #0005;outline:none}
+.glass{transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .3s ease,box-shadow .3s ease}
+.glass:focus-within{border-color:#8de8ff85;box-shadow:0 12px 44px #4a8cff16}
+:where(a,button,input,textarea):focus-visible{outline:2px solid #8be8ff;outline-offset:4px}
+@media(max-width:600px){.back-to-top{right:14px;bottom:calc(env(safe-area-inset-bottom) + 78px);width:42px;height:42px;border-radius:14px}}
+@media(prefers-reduced-motion:reduce){.back-to-top,.glass{transition:none!important}.back-to-top{transform:none!important}}
