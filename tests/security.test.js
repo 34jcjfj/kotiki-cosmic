@@ -200,3 +200,19 @@ test('security headers include cross-origin isolation and legacy policy protecti
   assert.equal(headers['X-Permitted-Cross-Domain-Policies'], 'none');
   assert.equal(headers['X-DNS-Prefetch-Control'], 'off');
 });
+
+
+test('audit events hash client IP and avoid writing raw IP to logs', () => {
+  const previousLog = console.info;
+  let line = '';
+  console.info = value => { line = String(value); };
+  try {
+    security.auditEvent({ headers: { 'x-real-ip': '203.0.113.25' } }, 'test_security_event', { route: '/api/auth/me' });
+    assert.match(line, /"service":"KOTIKI_SHIELD"/);
+    assert.match(line, /"event":"test_security_event"/);
+    assert.match(line, /"ipHash":"[a-f0-9]{16}"/);
+    assert.doesNotMatch(line, /203\.0\.113\.25/);
+  } finally {
+    console.info = previousLog;
+  }
+});
