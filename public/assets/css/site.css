@@ -228,3 +228,25 @@ footer{user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){
  body.egg-logo .brand-icon,body.egg-word .cosmic-glow,body.egg-avatar #serverAvatar,body.egg-online .status-pill,body.egg-konami .planet{animation:none!important}
 }
+
+
+/* Beta 2.0 — polished motion and a visible release note. */
+@keyframes beta-border-flow{0%,100%{background-position:0% 50%;filter:drop-shadow(0 0 0 #63e8ff00)}50%{background-position:100% 50%;filter:drop-shadow(0 0 10px #63e8ff18)}}
+@keyframes beta-mark-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(8deg)}}
+@keyframes beta-chip-glow{0%,100%{box-shadow:0 0 0 #63e8ff00;border-color:#63e8ff35}50%{box-shadow:0 0 24px #63e8ff16;border-color:#63e8ff80}}
+.beta-release{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;margin:0 0 18px;padding:20px 22px;border:1px solid transparent;border-radius:22px;background:linear-gradient(125deg,#111b3b,#171638) padding-box,linear-gradient(110deg,#63e8ff65,#a78bfa75,#ff8be955,#63e8ff65) border-box;background-size:auto,240% 100%;animation:beta-border-flow 10s ease-in-out infinite;overflow:hidden}
+.beta-release::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 15%,#ffffff07 48%,transparent 78%);transform:translateX(-100%);animation:beta-sweep 9s ease-in-out infinite}
+@keyframes beta-sweep{0%,65%,100%{transform:translateX(-100%)}82%{transform:translateX(100%)}}
+.beta-release-mark{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#63e8ff12;border:1px solid #63e8ff35;color:#bdf5ff;font-size:25px;animation:beta-mark-float 4.5s ease-in-out infinite}
+.beta-release-copy{position:relative;z-index:1;min-width:0}
+.beta-release-kicker{display:block;color:#9beaff;font-size:10px;font-weight:900;letter-spacing:1.7px;margin-bottom:5px}
+.beta-release-copy strong{display:block;font-size:20px;letter-spacing:-.4px}
+.beta-release-copy strong span{color:#aab4d7;font-size:13px;font-weight:600}
+.beta-release-copy p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
+.beta-release-chip{position:relative;z-index:1;padding:8px 11px;border:1px solid #63e8ff35;border-radius:999px;background:#63e8ff0c;color:#c5f6ff;font-size:10px;font-weight:900;letter-spacing:.8px;white-space:nowrap;animation:beta-chip-glow 4s ease-in-out infinite}
+.site-version{animation:beta-chip-glow 5s ease-in-out infinite}
+.security-panel{transition:border-color .3s,box-shadow .3s,transform .3s}
+.security-panel:hover{border-color:#63e8ff55;box-shadow:0 20px 70px #63e8ff0c}
+#checkShield{white-space:nowrap}
+@media(max-width:620px){.beta-release{grid-template-columns:auto minmax(0,1fr);padding:17px;gap:12px}.beta-release-mark{width:42px;height:42px;border-radius:14px}.beta-release-copy strong{font-size:18px}.beta-release-copy strong span{display:block;margin-top:3px}.beta-release-chip{grid-column:2;justify-self:start}.beta-release-copy p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.beta-release,.beta-release-mark,.beta-release-chip,.site-version,.beta-release::after{animation:none!important}.beta-release::after{display:none}}
