@@ -216,3 +216,14 @@ test('audit events hash client IP and avoid writing raw IP to logs', () => {
     console.info = previousLog;
   }
 });
+
+
+test('security headers prevent caching and MIME sniffing', () => {
+  const headers = {};
+  const res = { setHeader(name, value) { headers[name] = value; } };
+  security.setSecurityHeaders(res);
+  assert.equal(headers['Cache-Control'], 'no-store, max-age=0');
+  assert.equal(headers['X-Content-Type-Options'], 'nosniff');
+  assert.equal(headers['X-Frame-Options'], 'DENY');
+  assert.equal(headers['Referrer-Policy'], 'strict-origin-when-cross-origin');
+});
