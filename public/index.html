@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080b20">
-  <meta name="kotiki-cosmic-version" content="4.0-vercel">
+  <meta name="kotiki-cosmic-version" content="beta-2.0">
   <meta name="description" content="Котики — дружное космическое сообщество.">
   <title>Котики — космическое сообщество</title>
   <!-- PostHog analytics is loaded from a same-origin file to preserve the strict CSP. -->
@@ -72,6 +72,7 @@
     </section>
 
     <section class="wrap section compact" id="safety">
+      <div class="beta-release reveal" aria-label="Обновление Beta 2.0"><span class="beta-release-mark" aria-hidden="true">✦</span><div class="beta-release-copy"><span class="beta-release-kicker">ОБНОВЛЕНИЕ САЙТА</span><strong>Beta 2.0 <span>· KOTIKI COSMIC</span></strong><p>Больше космических анимаций, плавная навигация и усиленная проверка защитных заголовков в тестах.</p></div><span class="beta-release-chip">BETA 2.0</span></div>
       <div class="security-panel reveal"><div class="security-orb">🛡️</div><div><span class="eyebrow">KOTIKI SHIELD</span><h2>Спокойствие — тоже суперсила</h2><p>Я подключил серверную проверку входа, ограничение частоты запросов и журналирование попыток входа. Сетевую защиту хостинга всё равно нужно включить отдельно в панели Vercel.</p><div class="shield-state"><i class="status-dot"></i><span id="shieldStatus">Проверяю серверную защиту…</span></div></div><button class="btn" id="checkShield">Проверить статус</button></div>
     </section>
 
@@ -80,7 +81,7 @@
     </section>
   </main>
 
-  <footer class="wrap footer"><div class="footer-inner"><span>© <span id="year"></span> Котики · маленькая вселенная больших идей <span class="site-version">Beta 1.0</span></span><span><a href="#partners">Партнёрства</a> · <a href="#safety">KOTIKI SHIELD</a> · <button class="text-button" id="lockSite">Завершить сеанс владельца</button> · <button class="text-button" id="openAdmin">Настройки</button></span></div></footer>
+  <footer class="wrap footer"><div class="footer-inner"><span>© <span id="year"></span> Котики · маленькая вселенная больших идей <span class="site-version">Beta 2.0</span></span><span><a href="#partners">Партнёрства</a> · <a href="#safety">KOTIKI SHIELD</a> · <button class="text-button" id="lockSite">Завершить сеанс владельца</button> · <button class="text-button" id="openAdmin">Настройки</button></span></div></footer>
 
   <button class="music-fab" id="musicToggle" aria-label="Включить или выключить музыку" title="Музыка">♫</button>
   <audio id="siteAudio" loop preload="none"></audio>
