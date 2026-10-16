@@ -317,3 +317,87 @@ footer{user-select:none;-webkit-user-select:none}
 .beta-release-chip::after{content:"✦";display:inline-block;margin-left:6px;animation:b21-30-release-spark 3.5s ease-in-out infinite}
 @media(hover:hover){.glass:hover .feature-icon{animation:b21-12-icon-tilt .7s ease-in-out}.partner-panel:hover .partner-symbol{animation:b21-21-partner-pulse 1.5s ease-in-out infinite}.btn.primary:hover{filter:brightness(1.06)}}
 @media(prefers-reduced-motion:reduce){.brand-icon,.planet,.planet:after,.spark-one,.spark-two,.fc1,.fc2,.glass,.feature-icon,.section-head .eyebrow,.btn.primary,.status-dot,.security-orb,.partner-symbol,.join-panel,.beta-release,.beta-release-mark,.toast.show,.drawer-backdrop.open .drawer,.modal-backdrop.open .modal,.music-fab.playing,.footer-inner::after,.beta-release-chip::after{animation:none!important}.feature-icon::after{display:none}}
+
+
+/* KOTIKI COSMIC — animation expansion pack (36 additional motion effects).
+   Kept CSS-only for fast loading; all effects respect reduced-motion preferences. */
+:root{--motion-soft:cubic-bezier(.22,.7,.25,1);--motion-spring:cubic-bezier(.18,.9,.25,1.15)}
+@keyframes b22-01-star-drift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(8px,-12px,0)}100%{transform:translate3d(0,0,0)}}
+@keyframes b22-02-glow-breathe{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.75;transform:scale(1.06)}}
+@keyframes b22-03-glow-sway{0%,100%{transform:translateX(-2%) rotate(-2deg)}50%{transform:translateX(3%) rotate(2deg)}}
+@keyframes b22-04-meteor-trail{0%{transform:translate3d(12vw,-12vh,0) rotate(-20deg);opacity:0}12%{opacity:.8}80%{opacity:.8}100%{transform:translate3d(-90vw,90vh,0) rotate(-20deg);opacity:0}}
+@keyframes b22-05-brand-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes b22-06-brand-shimmer{0%,100%{filter:drop-shadow(0 0 0 #63e8ff00)}50%{filter:drop-shadow(0 0 7px #63e8ff80)}}
+@keyframes b22-07-avatar-orbit{0%,100%{box-shadow:0 0 0 0 #63e8ff00}50%{box-shadow:0 0 0 4px #63e8ff24,0 0 18px #63e8ff22}}
+@keyframes b22-08-status-twinkle{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes b22-09-button-lift{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
+@keyframes b22-10-button-sheen{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes b22-11-button-tap{0%{transform:scale(1)}45%{transform:scale(.97)}100%{transform:scale(1)}}
+@keyframes b22-12-nav-underline{0%{transform:scaleX(0);transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
+@keyframes b22-13-hero-rise{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes b22-14-tag-pop{0%{opacity:0;transform:scale(.92)}75%{transform:scale(1.025)}100%{opacity:1;transform:scale(1)}}
+@keyframes b22-15-title-glint{0%,70%,100%{background-position:100% 0}35%{background-position:0 0}}
+@keyframes b22-16-orbit-slow{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes b22-17-planet-bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+@keyframes b22-18-planet-halo{0%,100%{opacity:.35;transform:scale(.94)}50%{opacity:.8;transform:scale(1.08)}}
+@keyframes b22-19-card-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes b22-20-card-border{0%,100%{border-color:#a4b7ff2e}50%{border-color:#63e8ff80}}
+@keyframes b22-21-card-enter{0%{opacity:0;transform:translateY(12px) scale(.99)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes b22-22-icon-wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+@keyframes b22-23-icon-glow{0%,100%{filter:drop-shadow(0 0 0 #63e8ff00)}50%{filter:drop-shadow(0 0 9px #63e8ff88)}}
+@keyframes b22-24-section-line{0%{transform:scaleX(0);opacity:.3}100%{transform:scaleX(1);opacity:1}}
+@keyframes b22-25-security-scan{0%{transform:translateY(-120%);opacity:0}15%,80%{opacity:.7}100%{transform:translateY(120%);opacity:0}}
+@keyframes b22-26-shield-pulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 #74f6bf00)}50%{transform:scale(1.035);filter:drop-shadow(0 0 10px #74f6bf55)}}
+@keyframes b22-27-online-wave{0%,100%{box-shadow:0 0 0 0 #74f6bf55}60%{box-shadow:0 0 0 7px #74f6bf00}}
+@keyframes b22-28-join-glow{0%,100%{box-shadow:0 10px 45px #0002}50%{box-shadow:0 12px 48px #63e8ff14}}
+@keyframes b22-29-footer-wave{0%{background-position:0 0}100%{background-position:200% 0}}
+@keyframes b22-30-toast-pop{0%{opacity:0;transform:translateY(10px) scale(.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes b22-31-drawer-edge{0%{box-shadow:inset 1px 0 #63e8ff00}100%{box-shadow:inset 1px 0 #63e8ff60}}
+@keyframes b22-32-modal-focus{0%{box-shadow:0 0 0 0 #a78bfa00}100%{box-shadow:0 0 0 1px #a78bfa55,0 24px 80px #0008}}
+@keyframes b22-33-music-ring{0%,100%{outline:0 solid #63e8ff00}50%{outline:3px solid #63e8ff25}}
+@keyframes b22-34-scroll-progress{0%{filter:brightness(1)}50%{filter:brightness(1.25)}100%{filter:brightness(1)}}
+@keyframes b22-35-backtop-arrive{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes b22-36-egg-surprise{0%{transform:rotate(0) scale(1)}25%{transform:rotate(-7deg) scale(1.04)}60%{transform:rotate(5deg) scale(1.06)}100%{transform:rotate(0) scale(1)}}
+.glow-a{animation:b22-02-glow-breathe 13s ease-in-out infinite,b22-03-glow-sway 21s ease-in-out infinite alternate}
+.glow-b{animation:b22-02-glow-breathe 17s ease-in-out infinite reverse}
+.meteor-layer{animation:b22-04-meteor-trail 18s linear infinite}
+.brand{animation:b22-05-brand-float 6s ease-in-out infinite}
+.brand-icon{animation:b22-06-brand-shimmer 5s ease-in-out infinite}
+.server-avatar{animation:b22-07-avatar-orbit 5s ease-in-out infinite}
+.status-dot,.online-indicator{animation:b22-08-status-twinkle 2.8s ease-in-out infinite}
+.btn{transition:transform .2s var(--motion-soft),filter .2s ease,box-shadow .2s ease}
+.btn:active{animation:b22-11-button-tap .22s ease-out}
+.nav a{position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .22s var(--motion-soft)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+.hero-copy{animation:b22-13-hero-rise .7s var(--motion-soft) both}
+.hero-tagline,.hero-note{animation:b22-14-tag-pop .75s var(--motion-spring) both}
+.gothic-title{background-image:linear-gradient(110deg,var(--text) 20%,var(--cyan) 38%,var(--violet) 52%,var(--text) 70%);background-size:220% 100%;background-clip:text;-webkit-background-clip:text;animation:b22-15-title-glint 11s ease-in-out infinite}
+.orbit{animation:b22-16-orbit-slow 60s linear infinite}
+.planet{animation:b22-17-planet-bob 7s ease-in-out infinite}
+.planet::after{animation:b22-18-planet-halo 5s ease-in-out infinite}
+.float-card{animation:b22-19-card-float 8s ease-in-out infinite}
+.glass{transition:transform .25s var(--motion-soft),border-color .25s ease,box-shadow .25s ease}
+.glass:hover{border-color:#63e8ff75;box-shadow:0 12px 36px #0003}
+.glass:nth-child(1){animation:b22-21-card-enter .55s .04s both}
+.glass:nth-child(2){animation:b22-21-card-enter .55s .12s both}
+.glass:nth-child(3){animation:b22-21-card-enter .55s .2s both}
+.feature-icon{transition:transform .25s var(--motion-spring),filter .25s ease}
+.glass:hover .feature-icon{animation:b22-22-icon-wiggle .5s ease-in-out,b22-23-icon-glow 1s ease-in-out}
+.section-head::after{content:"";display:block;width:min(140px,35%);height:1px;margin-top:12px;background:linear-gradient(90deg,var(--cyan),var(--violet),transparent);transform-origin:left;animation:b22-24-section-line 1.2s var(--motion-soft) both}
+.security-orb{animation:b22-26-shield-pulse 5s ease-in-out infinite}
+.online-indicator{border-radius:999px}
+.join-panel{animation:b22-28-join-glow 7s ease-in-out infinite}
+.footer-inner::after{animation:b22-29-footer-wave 14s linear infinite}
+.toast.show{animation:b22-30-toast-pop .25s var(--motion-spring) both}
+.drawer-backdrop.open .drawer{animation:b22-31-drawer-edge .5s ease-out both}
+.modal-backdrop.open .modal{animation:b22-32-modal-focus .4s ease-out both}
+.music-fab.playing{animation:b22-33-music-ring 2.8s ease-in-out infinite}
+.scroll-progress{animation:b22-34-scroll-progress 4s ease-in-out infinite}
+.back-to-top.show{animation:b22-35-backtop-arrive .25s var(--motion-soft) both}
+.egg-logo:hover,.egg-avatar:hover,.egg-konami:hover{animation:b22-36-egg-surprise .7s var(--motion-spring)}
+@media(hover:hover){.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}.float-card:hover{animation-play-state:paused;transform:translateY(-7px)}}
+@media(max-width:640px){.float-card{animation-duration:10s}.glow-a,.glow-b{animation-duration:20s,30s}.orbit{animation-duration:90s}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
