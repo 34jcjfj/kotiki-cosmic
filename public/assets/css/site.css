@@ -401,3 +401,64 @@ footer{user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
+
+
+/* BETA 2.0 PERFORMANCE PASS — 30 extra lightweight motion recipes.
+   Mostly transform/opacity; hover/entry effects are event-driven, not perpetual. */
+@keyframes b23-01-soft-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-02-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes b23-03-slide-left{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes b23-04-slide-right{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes b23-05-tiny-bounce{0%,100%{transform:translateY(0)}45%{transform:translateY(-3px)}}
+@keyframes b23-06-tap-pop{0%{transform:scale(1)}55%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes b23-07-wiggle-small{0%,100%{transform:rotate(0)}35%{transform:rotate(-3deg)}70%{transform:rotate(3deg)}}
+@keyframes b23-08-spark-blink{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes b23-09-star-hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes b23-10-chip-in{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes b23-11-icon-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@keyframes b23-12-card-reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-13-planet-nod{0%,100%{transform:rotate(0)}50%{transform:rotate(2deg)}}
+@keyframes b23-14-orbit-breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.015)}}
+@keyframes b23-15-paw-print{0%{opacity:0;transform:translateY(4px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes b23-16-link-arrive{from{opacity:.65;transform:translateX(-2px)}to{opacity:1;transform:translateX(0)}}
+@keyframes b23-17-focus-ring{from{outline-color:#63e8ff00;outline-offset:1px}to{outline-color:#63e8ff99;outline-offset:3px}}
+@keyframes b23-18-toast-settle{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-19-menu-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-20-modal-open{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+@keyframes b23-21-music-bop{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes b23-22-status-pop{from{transform:scale(.8);opacity:.5}to{transform:scale(1);opacity:1}}
+@keyframes b23-23-heading-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-24-button-glide{from{background-position:100% 0}to{background-position:0 0}}
+@keyframes b23-25-footer-rise{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b23-26-egg-flip{0%{transform:rotate(0)}40%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}100%{transform:rotate(0)}}
+@keyframes b23-27-partner-handshake{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-2px) rotate(-3deg)}70%{transform:translateY(1px) rotate(3deg)}}
+@keyframes b23-28-safety-pulse{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:1;transform:scale(1.025)}}
+@keyframes b23-29-scroll-hint{0%,100%{transform:translateY(0);opacity:.65}50%{transform:translateY(3px);opacity:1}}
+@keyframes b23-30-reward-twinkle{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+@media(hover:hover){
+  .btn:hover span,.hero-buttons a:hover span{animation:b23-11-icon-nudge .28s ease-out}
+  .feature-icon:hover{animation:b23-07-wiggle-small .35s ease-in-out}
+  .partner-symbol:hover{animation:b23-27-partner-handshake .45s ease-in-out}
+  .beta-release-chip:hover{animation:b23-06-tap-pop .28s ease-out}
+  .spark:hover{animation:b23-30-reward-twinkle .4s ease-in-out}
+  .egg-logo:hover,.egg-avatar:hover,.egg-konami:hover{animation:b23-26-egg-flip .45s ease-in-out}
+}
+.btn:focus-visible,.nav a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.beta-release-chip{transition:transform .18s ease,opacity .18s ease}
+.partner-symbol{display:inline-block}
+.toast.show{animation:b23-18-toast-settle .18s ease-out both}
+.modal-backdrop.open .modal{animation:b23-20-modal-open .18s ease-out both}
+.footer-inner{contain:layout style}
+.glass{content-visibility:auto;contain-intrinsic-size:auto 220px}
+@media(max-width:640px){
+  /* Mobile: remove costly perpetual paint/filter effects; retain lightweight motion. */
+  .brand-icon,.server-avatar,.security-orb,.online-indicator,.join-panel,.footer-inner::after,.music-fab.playing,.scroll-progress{animation:none!important}
+  .gothic-title{animation:none!important;background-size:100% 100%}
+  .glass:hover{box-shadow:none}
+  .float-card{animation:none}
+  .cosmic-glow{opacity:.55}
+}
+@media(prefers-reduced-motion:reduce){
+  .brand,.brand-icon,.server-avatar,.status-dot,.online-indicator,.gothic-title,.orbit,.planet,.float-card,.join-panel,.security-orb,.footer-inner::after{animation:none!important}
+  .glass{content-visibility:visible}
+}
