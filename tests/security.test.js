@@ -227,3 +227,10 @@ test('security headers prevent caching and MIME sniffing', () => {
   assert.equal(headers['X-Frame-Options'], 'DENY');
   assert.equal(headers['Referrer-Policy'], 'strict-origin-when-cross-origin');
 });
+
+
+test('client IP selection validates the trusted header and never trusts forwarded-for', () => {
+  assert.equal(security.getIp({ headers: { 'x-real-ip': '203.0.113.25', 'x-forwarded-for': '198.51.100.8' } }), '203.0.113.25');
+  assert.equal(security.getIp({ headers: { 'x-real-ip': 'not-an-ip', 'x-forwarded-for': '198.51.100.8' }, socket: { remoteAddress: '192.0.2.44' } }), '192.0.2.44');
+  assert.equal(security.getIp({ headers: { 'x-real-ip': 'x'.repeat(10000), 'x-forwarded-for': '198.51.100.8' } }), 'unknown');
+});
