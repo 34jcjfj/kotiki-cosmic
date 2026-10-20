@@ -50,3 +50,16 @@ test('production response policy keeps essential security headers', () => {
   assert.match(config, /Strict-Transport-Security/);
   assert.match(config, /no-store, max-age=0/);
 });
+
+
+test('Discord statistics are visible, resilient, and use the current invite', () => {
+  const html = read('public/index.html');
+  const js = read('public/assets/js/site.js');
+  const css = read('public/assets/css/site.css');
+  assert.match(html, /id="serverStats"/);
+  assert.match(html, /discord\.gg\/fh2HZHT4p/);
+  assert.match(js, /approximate_member_count/);
+  assert.match(js, /approximate_presence_count/);
+  assert.match(js, /AbortController/);
+  assert.match(css, /reveal-pending\{filter:none!important\}/);
+});
