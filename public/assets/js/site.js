@@ -165,15 +165,15 @@
 
 
 
-  // KOTIKI SMART MODE: conservative client-side capability estimate, no telemetry.
+  // KOTIKI SMART MODE: local-only capability and frame-rate checks.
   (() => {
     const root=document.documentElement;
     const scoreNode=$('#performanceScore'), fill=$('#performanceFill'), bar=$('#performanceBar');
-    const modeNode=$('#performanceMode'), coresNode=$('#performanceCores'), memoryNode=$('#performanceMemory'), dataNode=$('#performanceData'), note=$('#performanceNote'), toggle=$('#performanceToggle');
+    const modeNode=$('#performanceMode'), coresNode=$('#performanceCores'), memoryNode=$('#performanceMemory'), dataNode=$('#performanceData'), fpsNode=$('#performanceFps'), note=$('#performanceNote'), toggle=$('#performanceToggle');
     if(!scoreNode || !fill || !bar) return;
     const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
     const connection=navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    let manualLite=null;
+    let manualLite=null, measuredFps=null, rafId=0, sampleStart=0, frameCount=0, generation=0;
     function assess(){
       const cores=Number(navigator.hardwareConcurrency)||0;
       const memory=Number(navigator.deviceMemory)||0;
@@ -186,8 +186,10 @@
       if(saveData) score-=12;
       if(slowNetwork) score-=10;
       if(reduced) score-=8;
+      if(measuredFps!==null && measuredFps<35) score-=15;
       score=Math.max(20,Math.min(98,score));
-      const lite=manualLite===null?(score<58||saveData||slowNetwork||reduced):manualLite;
+      const automaticLite=score<58||saveData||slowNetwork||reduced||(measuredFps!==null&&measuredFps<35);
+      const lite=manualLite===null?automaticLite:manualLite;
       root.classList.toggle('smart-lite',lite);
       root.dataset.performanceMode=lite?'lite':'full';
       scoreNode.textContent=String(score);
@@ -197,15 +199,78 @@
       coresNode.textContent=cores?String(cores):'Недоступно';
       memoryNode.textContent=memory?memory+' ГБ':'Недоступно';
       dataNode.textContent=saveData?'Включена':slowNetwork?'Медленная сеть':'Обычный';
+      if(fpsNode) fpsNode.textContent=measuredFps===null?'Измеряется…':'≈ '+measuredFps+' FPS';
       if(toggle){toggle.textContent=lite?'Включить полные эффекты':'Включить лёгкий режим';toggle.setAttribute('aria-pressed',String(lite));}
-      if(note) note.textContent=reduced?'Включена системная настройка уменьшения движения.':saveData||slowNetwork?'Выбраны более экономные эффекты с учётом настроек сети.':'Режим выбран по доступным признакам устройства (оценка '+score+'/100, не точный бенчмарк).';
+      if(note) {
+        if(reduced) note.textContent='Включена системная настройка уменьшения движения.';
+        else if(measuredFps!==null&&measuredFps<35&&manualLite===null) note.textContent='Обнаружена невысокая плавность ('+measuredFps+' FPS): включён облегчённый режим.';
+        else if(saveData||slowNetwork) note.textContent='Выбраны более экономные эффекты с учётом настроек сети.';
+        else note.textContent='Оценка возможностей — '+score+'/100; FPS измеряется в этой вкладке. Это ориентир, не лабораторный тест.';
+      }
     }
-    $('#performanceRefresh')?.addEventListener('click',()=>{manualLite=null;assess();});
+    function stopFpsSample(){generation++;if(rafId)cancelAnimationFrame(rafId);rafId=0;sampleStart=0;frameCount=0;}
+    function sampleFrame(now,run){
+      if(run!==generation||document.hidden)return;
+      if(!sampleStart)sampleStart=now;
+      frameCount++;
+      const elapsed=now-sampleStart;
+      if(elapsed>=1600){
+        measuredFps=Math.max(1,Math.min(120,Math.round(frameCount*1000/elapsed)));
+        rafId=0;
+        assess();
+        return;
+      }
+      rafId=requestAnimationFrame(t=>sampleFrame(t,run));
+    }
+    function measureFps(){
+      stopFpsSample();
+      if(document.hidden){if(fpsNode)fpsNode.textContent='Пауза';return;}
+      const run=generation;
+      rafId=requestAnimationFrame(t=>sampleFrame(t,run));
+    }
+    $('#performanceRefresh')?.addEventListener('click',()=>{manualLite=null;assess();measureFps();});
     toggle?.addEventListener('click',()=>{manualLite=!(root.dataset.performanceMode==='lite');assess();if(note)note.textContent='Режим изменён вручную. Нажми «Проверить снова», чтобы вернуть автоматический выбор.';});
     reduceMotion?.addEventListener?.('change',()=>{manualLite=null;assess();});
     connection?.addEventListener?.('change',()=>{manualLite=null;assess();});
+    document.addEventListener('visibilitychange',()=>{
+      root.classList.toggle('page-hidden',document.hidden);
+      if(document.hidden){stopFpsSample();if(fpsNode)fpsNode.textContent='Пауза';}
+      else measureFps();
+    });
+    root.classList.toggle('page-hidden',document.hidden);
     assess();
+    measureFps();
   })();
+
+  // Lightweight, on-demand diagnostics. Results stay in this browser.
+  $('#runDiagnostics')?.addEventListener('click',async()=>{
+    const output=$('#diagnosticResults');
+    if(!output)return;
+    output.hidden=false;
+    output.textContent='Проверяю доступность элементов и серверный статус…';
+    const checks=[];
+    const duplicateIds=[...document.querySelectorAll('[id]')].map(n=>n.id).filter((id,i,all)=>all.indexOf(id)!==i);
+    const missingAlt=[...document.querySelectorAll('img:not([alt])')].length;
+    const unnamedButtons=[...document.querySelectorAll('button')].filter(n=>!((n.getAttribute('aria-label')||n.getAttribute('title')||n.textContent||'').trim())).length;
+    const unnamedLinks=[...document.querySelectorAll('a[href]')].filter(n=>!((n.getAttribute('aria-label')||n.getAttribute('title')||n.textContent||n.querySelector('img[alt]')?.alt||'').trim())).length;
+    checks.push({ok:duplicateIds.length===0,label:duplicateIds.length?'Повторяющиеся ID: '+[...new Set(duplicateIds)].slice(0,3).join(', '):'ID элементов уникальны'});
+    checks.push({ok:missingAlt===0,label:missingAlt?'Изображения без alt: '+missingAlt:'У изображений есть alt-тексты'});
+    checks.push({ok:unnamedButtons===0,label:unnamedButtons?'Кнопки без доступного названия: '+unnamedButtons:'У кнопок есть названия'});
+    checks.push({ok:unnamedLinks===0,label:unnamedLinks?'Ссылки без доступного названия: '+unnamedLinks:'У ссылок есть названия'});
+    try {
+      const health=await api('/api/health',{method:'GET',headers:{}});
+      checks.push({ok:health.ok===true,label:health.ok?'Серверная проверка: готова':'Серверная проверка: нужна настройка'});
+      checks.push({ok:health.rateLimit==='distributed',label:health.rateLimit==='distributed'?'Распределённый лимит запросов включён':'Лимит запросов не подтверждён как распределённый'});
+    } catch { checks.push({ok:false,label:'API здоровья не отвечает или требует проверки'}); }
+    const passed=checks.filter(x=>x.ok).length;
+    output.replaceChildren();
+    const summary=document.createElement('p');
+    summary.textContent='Проверки пройдены: '+passed+' из '+checks.length+'. Это базовая самодиагностика, не полный аудит безопасности.';
+    output.append(summary);
+    const list=document.createElement('ul');
+    checks.forEach(item=>{const li=document.createElement('li');li.textContent=(item.ok?'✓ ':'• ')+item.label;li.className=item.ok?'diagnostic-ok':'diagnostic-warn';list.append(li);});
+    output.append(list);
+  });
 
   loadDiscordInviteMeta();
 })();
