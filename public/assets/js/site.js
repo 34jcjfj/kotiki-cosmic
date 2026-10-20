@@ -164,5 +164,48 @@
   });
 
 
+
+  // KOTIKI SMART MODE: conservative client-side capability estimate, no telemetry.
+  (() => {
+    const root=document.documentElement;
+    const scoreNode=$('#performanceScore'), fill=$('#performanceFill'), bar=$('#performanceBar');
+    const modeNode=$('#performanceMode'), coresNode=$('#performanceCores'), memoryNode=$('#performanceMemory'), dataNode=$('#performanceData'), note=$('#performanceNote'), toggle=$('#performanceToggle');
+    if(!scoreNode || !fill || !bar) return;
+    const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const connection=navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    let manualLite=null;
+    function assess(){
+      const cores=Number(navigator.hardwareConcurrency)||0;
+      const memory=Number(navigator.deviceMemory)||0;
+      const saveData=!!connection?.saveData;
+      const slowNetwork=/^(slow-2g|2g)$/.test(connection?.effectiveType||'');
+      const reduced=!!reduceMotion?.matches;
+      let score=70;
+      if(cores) score+=cores>=8?15:cores>=4?8:cores<=2?-22:-8;
+      if(memory) score+=memory>=8?12:memory>=4?6:memory<=2?-18:-6;
+      if(saveData) score-=12;
+      if(slowNetwork) score-=10;
+      if(reduced) score-=8;
+      score=Math.max(20,Math.min(98,score));
+      const lite=manualLite===null?(score<58||saveData||slowNetwork||reduced):manualLite;
+      root.classList.toggle('smart-lite',lite);
+      root.dataset.performanceMode=lite?'lite':'full';
+      scoreNode.textContent=String(score);
+      fill.style.width=score+'%';
+      bar.setAttribute('aria-valuenow',String(score));
+      modeNode.textContent=lite?'Лёгкий':'Полный';
+      coresNode.textContent=cores?String(cores):'Недоступно';
+      memoryNode.textContent=memory?memory+' ГБ':'Недоступно';
+      dataNode.textContent=saveData?'Включена':slowNetwork?'Медленная сеть':'Обычный';
+      if(toggle){toggle.textContent=lite?'Включить полные эффекты':'Включить лёгкий режим';toggle.setAttribute('aria-pressed',String(lite));}
+      if(note) note.textContent=reduced?'Включена системная настройка уменьшения движения.':saveData||slowNetwork?'Выбраны более экономные эффекты с учётом настроек сети.':'Режим выбран по доступным признакам устройства (оценка '+score+'/100, не точный бенчмарк).';
+    }
+    $('#performanceRefresh')?.addEventListener('click',()=>{manualLite=null;assess();});
+    toggle?.addEventListener('click',()=>{manualLite=!(root.dataset.performanceMode==='lite');assess();if(note)note.textContent='Режим изменён вручную. Нажми «Проверить снова», чтобы вернуть автоматический выбор.';});
+    reduceMotion?.addEventListener?.('change',()=>{manualLite=null;assess();});
+    connection?.addEventListener?.('change',()=>{manualLite=null;assess();});
+    assess();
+  })();
+
   loadDiscordInviteMeta();
 })();
