@@ -68,10 +68,10 @@
   async function loadDiscordInviteMeta(){
     const fallbackDate=discordCreatedAt('1431670233474662601');
     if(fallbackDate)renderAge(fallbackDate);
-    const status=$('#onlineCount');
+    const status=$('#onlineCount'), stats=$('#serverStats');
     const invite=($('#cfgInvite')?.value||INVITE_DEFAULT);
     const match=invite.match(/discord\\.gg\\/([\\w-]+)/i)||invite.match(/discord\\.com\\/invite\\/([\\w-]+)/i);
-    if(!match){if(status)status.textContent='Статистика Discord недоступна';return;}
+    if(!match){if(status)status.textContent='Статистика Discord недоступна';if(stats)stats.textContent='Статистика Discord сейчас недоступна.';return;}
     try{
       const controller=new AbortController();
       const timeout=setTimeout(()=>controller.abort(),7000);
@@ -92,14 +92,18 @@
         if(Number.isFinite(online)&&Number.isFinite(members)){
           status.textContent=`${online.toLocaleString('ru-RU')} онлайн · всего ≈ ${members.toLocaleString('ru-RU')}`;
           status.title='Приблизительная статистика Discord';
+          if(stats)stats.textContent=`Discord: ${online.toLocaleString('ru-RU')} онлайн · всего примерно ${members.toLocaleString('ru-RU')} участников.`;
         }else if(Number.isFinite(online)){
           status.textContent=`${online.toLocaleString('ru-RU')} онлайн`;
           status.title='Discord не предоставил общее число участников';
+          if(stats)stats.textContent=`Discord: сейчас онлайн ${online.toLocaleString('ru-RU')}; общее число участников недоступно.`;
         }else if(Number.isFinite(members)){
           status.textContent=`Участников ≈ ${members.toLocaleString('ru-RU')}`;
           status.title='Онлайн-статус недоступен';
+          if(stats)stats.textContent=`В Discord примерно ${members.toLocaleString('ru-RU')} участников; число онлайн недоступно.`;
         }else{
           status.textContent='Статистика Discord недоступна';
+          if(stats)stats.textContent='Discord не вернул статистику участников.';
         }
       }
       if(data.guild?.id){
@@ -107,7 +111,7 @@
         if(date){renderAge(date);clearInterval(serverAgeTimer);serverAgeTimer=setInterval(()=>renderAge(date),3600000);}
       }
     }catch(error){
-      if(status){status.textContent='Discord: статистика недоступна';status.title='Не удалось получить публичную статистику. Ссылка-приглашение остаётся доступной.';}
+      if(status){status.textContent='Discord: статистика недоступна';status.title='Не удалось получить публичную статистику. Ссылка-приглашение остаётся доступной.';}if(stats)stats.textContent='Не удалось загрузить статистику Discord. Приглашение продолжает работать.';
       const date=discordCreatedAt('1431670233474662601');
       if(date)renderAge(date);
     }
