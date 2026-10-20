@@ -2,8 +2,8 @@
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const INVITE_DEFAULT = 'https://discord.gg/Ycy85nDpWX';
-  const STORAGE_KEY = 'kotiki_cosmic_public_settings_v4';
+  const INVITE_DEFAULT = 'https://discord.gg/fh2HZHT4p';
+  const STORAGE_KEY = 'kotiki_cosmic_public_settings_v5';
   const DEFAULTS = { title: 'Котики', invite: INVITE_DEFAULT, description: 'Здесь можно знакомиться, делиться творчеством, участвовать в конкурсах и находить своих.', music: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Audionautix-com-ccby-azimuth.mp3' };
   let adminAuthenticated = false;
   function authMessage(node, text, error=false) { if(!node)return; node.textContent=text; node.classList.toggle('error',!!error); }
@@ -65,7 +65,53 @@
   $('#checkShield').addEventListener('click',async()=>{const status=$('#shieldStatus');status.textContent='Проверяю сервер…';try{const data=await api('/api/health',{method:'GET',headers:{}});status.textContent=data.rateLimit==='distributed'?'Серверная защита активна · распределённый лимит запросов':'Серверный вход активен · лимит запросов базовый';toast('Проверка завершена.');}catch{status.textContent='Серверная функция недоступна — проверь публикацию проекта.';toast('Не удалось связаться с серверной защитой.');}});
   (async()=>{try{const data=await api('/api/health',{method:'GET',headers:{}});$('#shieldStatus').textContent=data.rateLimit==='distributed'?'Серверная защита активна · распределённый лимит запросов':'Серверный вход активен · лимит запросов базовый';}catch{$('#shieldStatus').textContent='Серверная функция не отвечает — проверь публикацию.';}})();
   $('#musicToggle').addEventListener('click',async()=>{const audio=$('#siteAudio');if(!audio.src){toast('Добавь MP3-ссылку в настройках сайта.');return;}if(audio.paused){try{await audio.play();$('#musicToggle').classList.add('playing');toast('Музыка включена 🎵');}catch{toast('Браузер не разрешил воспроизведение. Нажми ещё раз.');}}else{audio.pause();$('#musicToggle').classList.remove('playing');toast('Музыка выключена');}});
-  async function loadDiscordInviteMeta(){const fallbackDate=discordCreatedAt('1431670233474662601');if(fallbackDate)renderAge(fallbackDate);const invite=($('#cfgInvite')?.value||INVITE_DEFAULT);const match=invite.match(/discord\.gg\/([\w-]+)/i)||invite.match(/discord\.com\/invite\/([\w-]+)/i);if(!match)return;try{const res=await fetch(`https://discord.com/api/v10/invites/${encodeURIComponent(match[1])}?with_counts=true`,{cache:'no-store'});if(!res.ok)return;const data=await res.json();if(data.guild?.icon){const img=$('#serverAvatar');img.src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;img.classList.add('visible');$('#brandIcon').style.display='none';}if(Number.isFinite(data.approximate_presence_count))$('#onlineCount').textContent=`${data.approximate_presence_count} онлайн`;if(data.guild?.id){const date=discordCreatedAt(data.guild.id);if(date){renderAge(date);clearInterval(serverAgeTimer);serverAgeTimer=setInterval(()=>renderAge(date),3600000);}}}catch{const id='1431670233474662601';const date=discordCreatedAt(id);if(date)renderAge(date);}}
+  async function loadDiscordInviteMeta(){
+    const fallbackDate=discordCreatedAt('1431670233474662601');
+    if(fallbackDate)renderAge(fallbackDate);
+    const status=$('#onlineCount');
+    const invite=($('#cfgInvite')?.value||INVITE_DEFAULT);
+    const match=invite.match(/discord\\.gg\\/([\\w-]+)/i)||invite.match(/discord\\.com\\/invite\\/([\\w-]+)/i);
+    if(!match){if(status)status.textContent='Статистика Discord недоступна';return;}
+    try{
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),7000);
+      let res;
+      try{res=await fetch(`https://discord.com/api/v10/invites/${encodeURIComponent(match[1])}?with_counts=true`,{cache:'no-store',signal:controller.signal});}
+      finally{clearTimeout(timeout);}
+      if(!res.ok)throw new Error('Discord invite API returned '+res.status);
+      const data=await res.json();
+      if(data.guild?.icon){
+        const img=$('#serverAvatar');
+        img.src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;
+        img.classList.add('visible');
+        $('#brandIcon').style.display='none';
+      }
+      const online=Number(data.approximate_presence_count);
+      const members=Number(data.approximate_member_count);
+      if(status){
+        if(Number.isFinite(online)&&Number.isFinite(members)){
+          status.textContent=`${online.toLocaleString('ru-RU')} онлайн · всего ≈ ${members.toLocaleString('ru-RU')}`;
+          status.title='Приблизительная статистика Discord';
+        }else if(Number.isFinite(online)){
+          status.textContent=`${online.toLocaleString('ru-RU')} онлайн`;
+          status.title='Discord не предоставил общее число участников';
+        }else if(Number.isFinite(members)){
+          status.textContent=`Участников ≈ ${members.toLocaleString('ru-RU')}`;
+          status.title='Онлайн-статус недоступен';
+        }else{
+          status.textContent='Статистика Discord недоступна';
+        }
+      }
+      if(data.guild?.id){
+        const date=discordCreatedAt(data.guild.id);
+        if(date){renderAge(date);clearInterval(serverAgeTimer);serverAgeTimer=setInterval(()=>renderAge(date),3600000);}
+      }
+    }catch(error){
+      if(status){status.textContent='Discord: статистика недоступна';status.title='Не удалось получить публичную статистику. Ссылка-приглашение остаётся доступной.';}
+      const date=discordCreatedAt('1431670233474662601');
+      if(date)renderAge(date);
+    }
+  }
 
   // Lightweight global navigation polish: reading progress and a keyboard-friendly return button.
   const progress=document.createElement('div');
