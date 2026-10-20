@@ -482,3 +482,13 @@ footer{user-select:none;-webkit-user-select:none}
 .smart-lite .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 @media(max-width:620px){.performance-head{align-items:flex-start}.performance-gauge{flex-basis:64px;width:64px;height:64px}.performance-details{grid-template-columns:repeat(2,minmax(0,1fr))}.performance-panel{margin:18px 0}}
 @media(prefers-reduced-motion:reduce){.performance-meter span{transition:none}}
+
+/* Smart-mode runtime diagnostics and background-tab efficiency */
+.performance-details{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}
+.diagnostic-results{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:#070a19aa;color:var(--muted);overflow-wrap:anywhere}
+.diagnostic-results p{margin:0 0 8px;color:var(--text);font-weight:700}
+.diagnostic-results ul{margin:0;padding-left:1.25rem;display:grid;gap:6px}
+.diagnostic-ok{color:var(--green)}.diagnostic-warn{color:#ffd18b}
+html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animation-play-state:paused!important;transition:none!important}
+.smart-lite .meteor-layer,.smart-lite .float-card,.smart-lite .orbit,.smart-lite .spark{will-change:auto!important}
+@media(max-width:620px){.performance-details{grid-template-columns:repeat(2,minmax(0,1fr))}.diagnostic-results{padding:11px}}
