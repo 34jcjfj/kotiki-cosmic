@@ -6,7 +6,7 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 
-test('site identifies the official 2.2 release consistently', () => {
+test('site identifies the official 2.3 release consistently', () => {
   const html = read('public/index.html');
   assert.match(html, /name="kotiki-cosmic-version" content="2\.3\.0"/);
   assert.match(html, /RELEASE 2\.2/);
