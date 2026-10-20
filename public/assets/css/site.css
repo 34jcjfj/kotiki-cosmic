@@ -462,3 +462,23 @@ footer{user-select:none;-webkit-user-select:none}
   .brand,.brand-icon,.server-avatar,.status-dot,.online-indicator,.gothic-title,.orbit,.planet,.float-card,.join-panel,.security-orb,.footer-inner::after{animation:none!important}
   .glass{content-visibility:visible}
 }
+
+/* Official 2.2 adaptive performance panel */
+.performance-panel{margin:26px 0;padding:clamp(18px,3vw,30px);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,rgba(17,23,55,.9),rgba(9,14,35,.88))}
+.performance-head{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.performance-head h2{margin:8px 0;font-size:clamp(1.35rem,3vw,2rem)}
+.performance-head p,.performance-note{color:var(--muted);line-height:1.6;max-width:720px}
+.performance-gauge{flex:0 0 78px;width:78px;height:78px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--cyan);box-shadow:0 0 24px #63e8ff1c}
+.performance-gauge span{font-size:1.55rem;font-weight:800}.performance-gauge small{font-size:.68rem;color:var(--muted)}
+.performance-meter{height:9px;background:#ffffff12;border-radius:99px;overflow:hidden;margin:20px 0}
+.performance-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:inherit;transition:width .35s ease}
+.performance-details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.performance-details>div{padding:12px;border-radius:14px;background:#ffffff08;min-width:0}
+.performance-details span,.performance-details strong{display:block}.performance-details span{font-size:.78rem;color:var(--muted);margin-bottom:5px}.performance-details strong{overflow-wrap:anywhere}
+.performance-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.performance-note{font-size:.82rem;margin-bottom:0}
+.smart-lite .cosmic-glow{filter:none!important;opacity:.35!important}
+.smart-lite .meteor-layer,.smart-lite .float-card,.smart-lite .orbit,.smart-lite .spark{animation:none!important}
+.smart-lite .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+@media(max-width:620px){.performance-head{align-items:flex-start}.performance-gauge{flex-basis:64px;width:64px;height:64px}.performance-details{grid-template-columns:repeat(2,minmax(0,1fr))}.performance-panel{margin:18px 0}}
+@media(prefers-reduced-motion:reduce){.performance-meter span{transition:none}}
