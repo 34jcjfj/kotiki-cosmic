@@ -8,9 +8,9 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 
 test('site identifies the official 2.2 release consistently', () => {
   const html = read('public/index.html');
-  assert.match(html, /name="kotiki-cosmic-version" content="2\.2\.0"/);
+  assert.match(html, /name="kotiki-cosmic-version" content="2\.3\.0"/);
   assert.match(html, /RELEASE 2\.2/);
-  assert.match(html, /Версия 2\.2\.0 · RELEASE/);
+  assert.match(html, /Версия 2\.3\.0 · RELEASE/);
   assert.doesNotMatch(html, /BETA 2\.2|Версия 1\.0/);
 });
 
