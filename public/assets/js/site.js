@@ -70,7 +70,7 @@
     if(fallbackDate)renderAge(fallbackDate);
     const status=$('#onlineCount'), stats=$('#serverStats');
     const invite=($('#cfgInvite')?.value||INVITE_DEFAULT);
-    const match=invite.match(/discord\\.gg\\/([\\w-]+)/i)||invite.match(/discord\\.com\\/invite\\/([\\w-]+)/i);
+    const match=invite.match(/discord\.gg\/([\w-]+)/i)||invite.match(/discord\.com\/invite\/([\w-]+)/i);
     if(!match){if(status)status.textContent='Статистика Discord недоступна';if(stats)stats.textContent='Статистика Discord сейчас недоступна.';return;}
     try{
       const controller=new AbortController();
