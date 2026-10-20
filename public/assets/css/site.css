@@ -499,3 +499,5 @@ html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animatio
 .reveal-pending.is-visible{animation:card-arrive-safe .55s var(--ease-cosmic) both;animation-delay:var(--reveal-delay,0ms)}
 @keyframes card-arrive-safe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.reveal-pending.is-visible{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}}
+
+.server-stats{display:block;flex-basis:100%;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.5}
