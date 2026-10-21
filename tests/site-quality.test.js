@@ -63,3 +63,17 @@ test('Discord statistics are visible, resilient, and use the current invite', ()
   assert.match(js, /AbortController/);
   assert.match(css, /reveal-pending\{filter:none!important\}/);
 });
+
+
+test('release motion tuning keeps the released product out of Beta and preserves low-cost effects', () => {
+  const html = read('public/index.html');
+  const css = read('public/assets/css/site.css');
+  assert.match(html, /release-banner/);
+  assert.match(html, /Версия 2\.3\.0 · RELEASE/);
+  assert.doesNotMatch(html, /class="beta-release/);
+  assert.match(css, /\.smart-lite \.cosmic-glow/);
+  assert.match(css, /lite-planet-breathe/);
+  assert.match(css, /\.gothic-title\{animation-duration:7\.5s!important\}/);
+  assert.match(css, /\.orbit\.two\{animation-duration:96s!important\}/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+});

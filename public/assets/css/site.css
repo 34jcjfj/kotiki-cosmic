@@ -230,29 +230,29 @@ footer{user-select:none;-webkit-user-select:none}
 }
 
 
-/* Beta 2.0 — polished motion and a visible release note. */
-@keyframes beta-border-flow{0%,100%{background-position:0% 50%;filter:drop-shadow(0 0 0 #63e8ff00)}50%{background-position:100% 50%;filter:drop-shadow(0 0 10px #63e8ff18)}}
-@keyframes beta-mark-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(8deg)}}
-@keyframes beta-chip-glow{0%,100%{box-shadow:0 0 0 #63e8ff00;border-color:#63e8ff35}50%{box-shadow:0 0 24px #63e8ff16;border-color:#63e8ff80}}
-.beta-release{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;margin:0 0 18px;padding:20px 22px;border:1px solid transparent;border-radius:22px;background:linear-gradient(125deg,#111b3b,#171638) padding-box,linear-gradient(110deg,#63e8ff65,#a78bfa75,#ff8be955,#63e8ff65) border-box;background-size:auto,240% 100%;animation:beta-border-flow 10s ease-in-out infinite;overflow:hidden}
-.beta-release::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 15%,#ffffff07 48%,transparent 78%);transform:translateX(-100%);animation:beta-sweep 9s ease-in-out infinite}
-@keyframes beta-sweep{0%,65%,100%{transform:translateX(-100%)}82%{transform:translateX(100%)}}
-.beta-release-mark{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#63e8ff12;border:1px solid #63e8ff35;color:#bdf5ff;font-size:25px;animation:beta-mark-float 4.5s ease-in-out infinite}
-.beta-release-copy{position:relative;z-index:1;min-width:0}
-.beta-release-kicker{display:block;color:#9beaff;font-size:10px;font-weight:900;letter-spacing:1.7px;margin-bottom:5px}
-.beta-release-copy strong{display:block;font-size:20px;letter-spacing:-.4px}
-.beta-release-copy strong span{color:#aab4d7;font-size:13px;font-weight:600}
-.beta-release-copy p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
-.beta-release-chip{position:relative;z-index:1;padding:8px 11px;border:1px solid #63e8ff35;border-radius:999px;background:#63e8ff0c;color:#c5f6ff;font-size:10px;font-weight:900;letter-spacing:.8px;white-space:nowrap;animation:beta-chip-glow 4s ease-in-out infinite}
-.site-version{animation:beta-chip-glow 5s ease-in-out infinite}
+/* Historical motion pack — polished motion and official release note. */
+@keyframes release-border-flow{0%,100%{background-position:0% 50%;filter:drop-shadow(0 0 0 #63e8ff00)}50%{background-position:100% 50%;filter:drop-shadow(0 0 10px #63e8ff18)}}
+@keyframes release-mark-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(8deg)}}
+@keyframes release-chip-glow{0%,100%{box-shadow:0 0 0 #63e8ff00;border-color:#63e8ff35}50%{box-shadow:0 0 24px #63e8ff16;border-color:#63e8ff80}}
+.release-banner{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;margin:0 0 18px;padding:20px 22px;border:1px solid transparent;border-radius:22px;background:linear-gradient(125deg,#111b3b,#171638) padding-box,linear-gradient(110deg,#63e8ff65,#a78bfa75,#ff8be955,#63e8ff65) border-box;background-size:auto,240% 100%;animation:release-border-flow 10s ease-in-out infinite;overflow:hidden}
+.release-banner::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 15%,#ffffff07 48%,transparent 78%);transform:translateX(-100%);animation:release-sweep 9s ease-in-out infinite}
+@keyframes release-sweep{0%,65%,100%{transform:translateX(-100%)}82%{transform:translateX(100%)}}
+.release-banner-mark{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#63e8ff12;border:1px solid #63e8ff35;color:#bdf5ff;font-size:25px;animation:release-mark-float 4.5s ease-in-out infinite}
+.release-banner-copy{position:relative;z-index:1;min-width:0}
+.release-banner-kicker{display:block;color:#9beaff;font-size:10px;font-weight:900;letter-spacing:1.7px;margin-bottom:5px}
+.release-banner-copy strong{display:block;font-size:20px;letter-spacing:-.4px}
+.release-banner-copy strong span{color:#aab4d7;font-size:13px;font-weight:600}
+.release-banner-copy p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
+.release-banner-chip{position:relative;z-index:1;padding:8px 11px;border:1px solid #63e8ff35;border-radius:999px;background:#63e8ff0c;color:#c5f6ff;font-size:10px;font-weight:900;letter-spacing:.8px;white-space:nowrap;animation:release-chip-glow 4s ease-in-out infinite}
+.site-version{animation:release-chip-glow 5s ease-in-out infinite}
 .security-panel{transition:border-color .3s,box-shadow .3s,transform .3s}
 .security-panel:hover{border-color:#63e8ff55;box-shadow:0 20px 70px #63e8ff0c}
 #checkShield{white-space:nowrap}
-@media(max-width:620px){.beta-release{grid-template-columns:auto minmax(0,1fr);padding:17px;gap:12px}.beta-release-mark{width:42px;height:42px;border-radius:14px}.beta-release-copy strong{font-size:18px}.beta-release-copy strong span{display:block;margin-top:3px}.beta-release-chip{grid-column:2;justify-self:start}.beta-release-copy p{font-size:12px}}
-@media(prefers-reduced-motion:reduce){.beta-release,.beta-release-mark,.beta-release-chip,.site-version,.beta-release::after{animation:none!important}.beta-release::after{display:none}}
+@media(max-width:620px){.release-banner{grid-template-columns:auto minmax(0,1fr);padding:17px;gap:12px}.release-banner-mark{width:42px;height:42px;border-radius:14px}.release-banner-copy strong{font-size:18px}.release-banner-copy strong span{display:block;margin-top:3px}.release-banner-chip{grid-column:2;justify-self:start}.release-banner-copy p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.release-banner,.release-banner-mark,.release-banner-chip,.site-version,.release-banner::after{animation:none!important}.release-banner::after{display:none}}
 
 
-/* Beta 2.1 — 30 additional coordinated motion effects. */
+/* Historical motion pack — 30 coordinated motion effects. */
 @keyframes b21-01-title-glint{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes b21-02-brand-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @keyframes b21-03-brand-aura{0%,100%{box-shadow:0 0 16px #63e8ff22}50%{box-shadow:0 0 30px #a78bfa55}}
@@ -275,8 +275,8 @@ footer{user-select:none;-webkit-user-select:none}
 @keyframes b21-20-shield-scan{0%{background-position:0 0}100%{background-position:0 120px}}
 @keyframes b21-21-partner-pulse{0%,100%{box-shadow:0 0 0 #a78bfa00}50%{box-shadow:0 0 32px #a78bfa18}}
 @keyframes b21-22-join-glow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-@keyframes b21-23-beta-orbit{0%,100%{rotate:0deg}50%{rotate:2deg}}
-@keyframes b21-24-beta-star{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.12) rotate(12deg)}}
+@keyframes b21-23-release-orbit{0%,100%{rotate:0deg}50%{rotate:2deg}}
+@keyframes b21-24-release-star{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.12) rotate(12deg)}}
 @keyframes b21-25-toast-arrive{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
 @keyframes b21-26-drawer-arrive{from{opacity:.7;translate:16px 0}to{opacity:1;translate:0 0}}
 @keyframes b21-27-modal-arrive{from{filter:blur(3px)}to{filter:blur(0)}}
@@ -305,18 +305,18 @@ footer{user-select:none;-webkit-user-select:none}
 .security-panel{background-image:linear-gradient(180deg,#63e8ff05 0%,transparent 50%,#a78bfa05 100%),radial-gradient(ellipse at 10% 0,#63e8ff10,transparent 45%),linear-gradient(130deg,#111a39dc,#11132cdc);background-size:100% 120px,auto,auto}
 .partner-symbol{animation:b21-21-partner-pulse 6s ease-in-out infinite}
 .join-panel{background-size:220% 220%;animation:b21-22-join-glow 16s ease-in-out infinite}
-.beta-release{animation:beta-border-flow 10s ease-in-out infinite,b21-23-beta-orbit 11s ease-in-out infinite}
-.beta-release-mark{animation:beta-mark-float 4.5s ease-in-out infinite,b21-24-beta-star 8s ease-in-out infinite}
+.release-banner{animation:release-border-flow 10s ease-in-out infinite,b21-23-release-orbit 11s ease-in-out infinite}
+.release-banner-mark{animation:release-mark-float 4.5s ease-in-out infinite,b21-24-release-star 8s ease-in-out infinite}
 .toast.show{animation:b21-25-toast-arrive .3s var(--ease-cosmic) both}
 .drawer-backdrop.open .drawer{animation:b21-26-drawer-arrive .35s var(--ease-cosmic) both}
 .modal-backdrop.open .modal{animation:b21-27-modal-arrive .28s ease-out both}
 .music-fab.playing{animation:pulse 2s infinite,b21-28-music-beat 1.6s ease-in-out infinite}
 .footer-inner{position:relative}
 .footer-inner::after{content:"";position:absolute;top:-1px;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,#63e8ff80,#a78bfa80,transparent);background-size:200% 100%;animation:b21-29-footer-glint 12s linear infinite;pointer-events:none}
-.beta-release-chip{position:relative}
-.beta-release-chip::after{content:"✦";display:inline-block;margin-left:6px;animation:b21-30-release-spark 3.5s ease-in-out infinite}
+.release-banner-chip{position:relative}
+.release-banner-chip::after{content:"✦";display:inline-block;margin-left:6px;animation:b21-30-release-spark 3.5s ease-in-out infinite}
 @media(hover:hover){.glass:hover .feature-icon{animation:b21-12-icon-tilt .7s ease-in-out}.partner-panel:hover .partner-symbol{animation:b21-21-partner-pulse 1.5s ease-in-out infinite}.btn.primary:hover{filter:brightness(1.06)}}
-@media(prefers-reduced-motion:reduce){.brand-icon,.planet,.planet:after,.spark-one,.spark-two,.fc1,.fc2,.glass,.feature-icon,.section-head .eyebrow,.btn.primary,.status-dot,.security-orb,.partner-symbol,.join-panel,.beta-release,.beta-release-mark,.toast.show,.drawer-backdrop.open .drawer,.modal-backdrop.open .modal,.music-fab.playing,.footer-inner::after,.beta-release-chip::after{animation:none!important}.feature-icon::after{display:none}}
+@media(prefers-reduced-motion:reduce){.brand-icon,.planet,.planet:after,.spark-one,.spark-two,.fc1,.fc2,.glass,.feature-icon,.section-head .eyebrow,.btn.primary,.status-dot,.security-orb,.partner-symbol,.join-panel,.release-banner,.release-banner-mark,.toast.show,.drawer-backdrop.open .drawer,.modal-backdrop.open .modal,.music-fab.playing,.footer-inner::after,.release-banner-chip::after{animation:none!important}.feature-icon::after{display:none}}
 
 
 /* KOTIKI COSMIC — animation expansion pack (36 additional motion effects).
@@ -403,7 +403,7 @@ footer{user-select:none;-webkit-user-select:none}
 }
 
 
-/* BETA 2.0 PERFORMANCE PASS — 30 extra lightweight motion recipes.
+/* RELEASE 2.3 PERFORMANCE PASS — 30 lightweight motion recipes.
    Mostly transform/opacity; hover/entry effects are event-driven, not perpetual. */
 @keyframes b23-01-soft-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes b23-02-fade-in{from{opacity:0}to{opacity:1}}
@@ -439,12 +439,12 @@ footer{user-select:none;-webkit-user-select:none}
   .btn:hover span,.hero-buttons a:hover span{animation:b23-11-icon-nudge .28s ease-out}
   .feature-icon:hover{animation:b23-07-wiggle-small .35s ease-in-out}
   .partner-symbol:hover{animation:b23-27-partner-handshake .45s ease-in-out}
-  .beta-release-chip:hover{animation:b23-06-tap-pop .28s ease-out}
+  .release-banner-chip:hover{animation:b23-06-tap-pop .28s ease-out}
   .spark:hover{animation:b23-30-reward-twinkle .4s ease-in-out}
   .egg-logo:hover,.egg-avatar:hover,.egg-konami:hover{animation:b23-26-egg-flip .45s ease-in-out}
 }
 .btn:focus-visible,.nav a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
-.beta-release-chip{transition:transform .18s ease,opacity .18s ease}
+.release-banner-chip{transition:transform .18s ease,opacity .18s ease}
 .partner-symbol{display:inline-block}
 .toast.show{animation:b23-18-toast-settle .18s ease-out both}
 .modal-backdrop.open .modal{animation:b23-20-modal-open .18s ease-out both}
@@ -501,3 +501,46 @@ html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animatio
 @media(prefers-reduced-motion:reduce){.reveal-pending.is-visible{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}}
 
 .server-stats{display:block;flex-basis:100%;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.5}
+
+
+/* RELEASE MOTION TUNING — layered motion with a gentle, low-cost fallback. */
+/* Text gets a quicker shimmer; the planet and orbital artwork move more slowly. */
+.gothic-title{animation-duration:7.5s!important}
+.planet{animation-duration:10s!important}
+.orbit{animation-duration:78s!important}
+.orbit.two{animation-duration:96s!important}
+
+/* Keep a quiet violet nebula in Smart Lite as a visual easter egg, not a heavy blur. */
+.smart-lite .cosmic-glow{
+  filter:blur(34px)!important;
+  opacity:.14!important;
+  animation:none!important;
+}
+.smart-lite .glow-b{opacity:.11!important}
+.smart-lite body.egg-word .glow-b,
+.smart-lite body.egg-konami .glow-b{
+  opacity:.72!important;
+  filter:blur(38px) saturate(1.25)!important;
+}
+.smart-lite .stars,
+.smart-lite .stars::before,
+.smart-lite .stars::after{animation:none!important}
+.smart-lite .planet{animation:lite-planet-breathe 12s ease-in-out infinite!important}
+@keyframes lite-planet-breathe{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+
+/* Avoid reserving compositor memory for every card and button at once. */
+.btn,.glass,.brand-icon{will-change:auto}
+@media(hover:hover){
+  .btn:hover,.glass:hover,.brand-icon:hover{will-change:transform}
+}
+@media(max-width:640px){
+  .smart-lite .planet{animation:none!important}
+  .smart-lite .cosmic-glow{filter:blur(28px)!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .gothic-title,.planet,.orbit,.orbit.two,.smart-lite .planet{animation:none!important}
+  .smart-lite .cosmic-glow{animation:none!important;opacity:.1!important}
+}
