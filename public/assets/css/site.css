@@ -548,3 +548,70 @@ html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animatio
   .gothic-title,.planet,.orbit,.orbit.two,.smart-lite .planet{animation:none!important}
   .smart-lite .cosmic-glow{animation:none!important;opacity:.1!important}
 }
+
+
+/* COSMIC BACKGROUND HOTFIX — keep the sky still and animate each shooting star. */
+.stars{
+  position:fixed!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  isolation:isolate;
+}
+.stars::before,.stars::after{
+  z-index:0!important;
+  pointer-events:none!important;
+}
+.meteor-layer{
+  position:fixed!important;
+  inset:0!important;
+  z-index:0!important;
+  display:block!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  animation:none!important;
+}
+.meteor-layer i{
+  position:absolute!important;
+  display:block!important;
+  width:2px!important;
+  height:82px!important;
+  border-radius:999px;
+  background:linear-gradient(to bottom,transparent 0%,#a8f2ff 48%,#ffffff 54%,#a8f2ff 62%,transparent 100%)!important;
+  box-shadow:0 0 8px #63e8ff99,0 0 18px #8bbcff55;
+  opacity:0;
+  animation-name:meteor-fall!important;
+  animation-duration:var(--meteor-duration,11s)!important;
+  animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;
+  animation-delay:var(--meteor-delay,0s)!important;
+  animation-play-state:running!important;
+}
+header,main,footer{
+  position:relative;
+  z-index:1;
+}
+/* Smart Lite saves blur/compositing costs, but never removes shooting stars. */
+.smart-lite .meteor-layer{animation:none!important;display:block!important;opacity:1!important}
+.smart-lite .meteor-layer i{
+  animation-name:meteor-fall!important;
+  animation-duration:var(--meteor-duration,11s)!important;
+  animation-iteration-count:infinite!important;
+  animation-play-state:running!important;
+}
+/* Even with reduced-motion enabled, keep a few slow, subtle shooting stars. */
+@media(prefers-reduced-motion:reduce){
+  .cosmic-glow{display:none!important}
+  .meteor-layer{display:block!important;animation:none!important}
+  .meteor-layer i{
+    animation-name:meteor-fall!important;
+    animation-duration:24s!important;
+    animation-iteration-count:infinite!important;
+    animation-play-state:running!important;
+    opacity:.55;
+  }
+  .stars,.stars::before,.stars::after{animation:none!important}
+}
