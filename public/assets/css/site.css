@@ -615,3 +615,34 @@ header,main,footer{
   }
   .stars,.stars::before,.stars::after{animation:none!important}
 }
+
+
+/* RELEASE 2.4 — low-cost interactive comet sheen. */
+.btn.primary{isolation:isolate}
+.btn.primary::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:-70%;
+  bottom:-70%;
+  left:-38%;
+  width:24%;
+  pointer-events:none;
+  opacity:0;
+  transform:translateX(-180%) rotate(18deg);
+  background:linear-gradient(90deg,transparent,#ffffff40,transparent);
+  transition:transform .65s var(--ease-cosmic),opacity .18s ease;
+}
+.btn.primary>*{position:relative;z-index:1}
+@media(hover:hover){
+  .btn.primary:hover::after,
+  .btn.primary:focus-visible::after{
+    opacity:.9;
+    transform:translateX(560%) rotate(18deg);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .btn.primary::after{transition:none!important}
+  .btn.primary:hover::after,
+  .btn.primary:focus-visible::after{transform:none!important;opacity:0!important}
+}
