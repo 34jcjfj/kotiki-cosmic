@@ -79,7 +79,7 @@ test('release motion tuning keeps the released product out of Beta and preserves
 });
 
 
-test('cosmic background and interactive comet sheen remain present and motion-safe'', () => {
+test('cosmic background and interactive comet sheen remain present and motion-safe', () => {
   const html = read('public/index.html');
   const css = read('public/assets/css/site.css');
   assert.match(html, /class="meteor-layer"/);
