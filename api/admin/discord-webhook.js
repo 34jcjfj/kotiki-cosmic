@@ -26,6 +26,8 @@ module.exports = async function handler(req, res) {
     const response = await fetch(url.href, {
       method: 'POST',
       redirect: 'error',
+      // Bound upstream wait time so Discord/network stalls cannot occupy the serverless function indefinitely.
+      signal: AbortSignal.timeout(5000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ content: message, allowed_mentions: { parse: [] } })
     });
