@@ -77,3 +77,17 @@ test('release motion tuning keeps the released product out of Beta and preserves
   assert.match(css, /\.orbit\.two\{animation-duration:96s!important\}/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
+
+
+test('cosmic background and interactive comet sheen remain present and motion-safe'', () => {
+  const html = read('public/index.html');
+  const css = read('public/assets/css/site.css');
+  assert.match(html, /class="meteor-layer"/);
+  assert.match(css, /@keyframes meteor-fall/);
+  assert.match(css, /\.meteor-layer i\{/);
+  assert.match(css, /\.smart-lite \.meteor-layer i/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /RELEASE 2\.4 — low-cost interactive comet sheen/);
+  assert.match(css, /\.btn\.primary:hover::after/);
+  assert.match(css, /\.btn\.primary::after\{transition:none!important\}/);
+});
